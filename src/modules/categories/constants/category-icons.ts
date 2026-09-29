@@ -1,0 +1,45 @@
+export const CATEGORY_ICONS = [
+    { name: "baby", color: "#F472B6" },
+    { name: "banknote", color: "#16A34A" },
+    { name: "book-open", color: "#4F46E5" },
+    { name: "briefcase", color: "#22C55E" },
+    { name: "bus", color: "#2563EB" },
+    { name: "car", color: "#3B82F6" },
+    { name: "circle-dollar-sign", color: "#10B981" },
+    { name: "coffee", color: "#A16207" },
+    { name: "dog", color: "#D97706" },
+    { name: "droplets", color: "#06B6D4" },
+    { name: "dumbbell", color: "#DC2626" },
+    { name: "film", color: "#7C3AED" },
+    { name: "fuel", color: "#EA580C" },
+    { name: "gamepad-2", color: "#EC4899" },
+    { name: "gift", color: "#DB2777" },
+    { name: "graduation-cap", color: "#8B5CF6" },
+    { name: "hand-coins", color: "#059669" },
+    { name: "heart-pulse", color: "#EF4444" },
+    { name: "house", color: "#6366F1" },
+    { name: "landmark", color: "#1D4ED8" },
+    { name: "laptop", color: "#14B8A6" },
+    { name: "music", color: "#C026D3" },
+    { name: "paw-print", color: "#A855F7" },
+    { name: "piggy-bank", color: "#FB7185" },
+    { name: "pill", color: "#0D9488" },
+    { name: "plane", color: "#0284C7" },
+    { name: "receipt", color: "#64748B" },
+    { name: "shirt", color: "#E879F9" },
+    { name: "shopping-bag", color: "#F97316" },
+    { name: "smartphone", color: "#475569" },
+    { name: "stethoscope", color: "#E11D48" },
+    { name: "tag", color: "#78716C" },
+    { name: "trending-up", color: "#0EA5E9" },
+    { name: "utensils", color: "#F59E0B" },
+    { name: "wallet", color: "#15803D" },
+    { name: "wifi", color: "#818CF8" },
+    { name: "zap", color: "#EAB308" },
+] as const;
+
+export type CategoryIconName = (typeof CATEGORY_ICONS)[number]["name"];
+
+export function isCategoryIconName(name: string): name is CategoryIconName {
+    return CATEGORY_ICONS.some((icon) => icon.name === name);
+}

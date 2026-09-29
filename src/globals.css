@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+body {
+    background-color: var(--color-background-base);
+}
+
+@theme {
+    --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+    /* ================== BACKGROUND ================== */
+    --color-background-base: #000000;
+    --color-background-surface: #0A0A0C;
+    --color-background-elevated: #131318;
+    --color-background-inverse: #FFFFFF;
+    --color-background-accent: #C8F047;
+    --color-background-accent-secondary: #B5DC36;
+    --color-background-danger: #FF6B6B;
+    --color-background-success: #3DDC84;
+
+    /* ================== CONTENT ================== */
+    --color-content-primary: #FFFFFF;
+    --color-content-muted: #A3A3A3;
+    --color-content-inverse: #0A0A0A;
+    --color-content-accent: #C8F047;
+    --color-content-accent-light: #E4F9A4;
+    --color-content-accent-secondary: #B5DC36;
+    --color-content-danger: #FF6B6B;
+    --color-content-success: #3DDC84;
+    --color-content-warning: #D97706;
+    --color-content-info: #3B82F6;
+
+    /* ================== BORDERS ================== */
+    --color-brd-default: #1F1F24;
+    --color-brd-subtle: #16161A;
+    --color-brd-strong: #2C2C32;
+    --color-brd-danger: #FF6B6B;
+    --color-brd-accent: #C8F047;
+
+    /* ================== BUTTON - PRIMARY ================== */
+    --color-btn-primary-bg: #C8F047;
+    --color-btn-primary-content: #0A0A0A;
+    --color-btn-primary-hover-bg: #B5DC36;
+    --color-btn-primary-active-bg: #A3C82E;
+    --color-btn-primary-disabled-bg: #2A3610;
+    --color-btn-primary-disabled-content: #7A8A4A;
+
+    /* ================== BUTTON - SECONDARY ================== */
+    --color-btn-secondary-bg: #62626C;
+    --color-btn-secondary-content: #FFFFFF;
+    --color-btn-secondary-hover-bg: #70707A;
+    --color-btn-secondary-active-bg: #585862;
+    --color-btn-secondary-disabled-bg: #2C2C32;
+    --color-btn-secondary-disabled-content: #8A8A94;
+
+    /* ================== BUTTON - DANGER ================== */
+    --color-btn-danger-bg: #FF6B6B;
+    --color-btn-danger-content: #0A0A0A;
+    --color-btn-danger-hover-bg: #FF5252;
+    --color-btn-danger-active-bg: #F03E3E;
+    --color-btn-danger-disabled-bg: #3A1818;
+    --color-btn-danger-disabled-content: #8C5C5C;
+
+    /* ================== BUTTON - OUTLINE ================== */
+    --color-btn-outline-bg: transparent;
+    --color-btn-outline-border: #1A1A1A;
+    --color-btn-outline-content: #FFFFFF;
+    --color-btn-outline-hover-bg: #141414;
+    --color-btn-outline-hover-content: #C8F047;
+    --color-btn-outline-active-bg: #0C0C0C;
+    --color-btn-outline-disabled-border: #121212;
+    --color-btn-outline-disabled-content: #555555;
+
+    /* ================== BUTTON - LINK ================== */
+    --color-btn-link-bg: transparent;
+    --color-btn-link-content: #C8F047;
+    --color-btn-link-hover-content: #B5DC36;
+    --color-btn-link-disabled-content: #555555;
+
+    /* ================== BUTTON - SUCCESS ================== */
+    --color-btn-success-bg: #3DDC84;
+    --color-btn-success-content: #0A0A0A;
+    --color-btn-success-hover-bg: #2BCF74;
+    --color-btn-success-active-bg: #22B864;
+    --color-btn-success-disabled-bg: #12301E;
+    --color-btn-success-disabled-content: #6A9A7C;
+
+    /* ================== BUTTON - HIGHLIGHT ================== */
+    --color-btn-highlight-bg: #C8F047;
+    --color-btn-highlight-to: #B5DC36;
+    --color-btn-highlight-content: #0A0A0A;
+    --color-btn-highlight-hover-bg: #B5DC36;
+    --color-btn-highlight-disabled-bg: #1E280C;
+
+    /* ================== INPUT ================== */
+    --color-input-bg: #0C0C0C;
+    --color-input-border: #1A1A1A;
+    --color-input-content: #FFFFFF;
+    --color-input-placeholder: #555555;
+    --color-input-focus-bg: #101010;
+    --color-input-focus-border: #C8F047;
+    --color-input-focus-ring: rgba(200, 240, 71, 0.2);
+    --color-input-error-border: #FF6B6B;
+    --color-input-success-border: #3DDC84;
+    --color-input-disabled-bg: #080808;
+    --color-input-disabled-border: #121212;
+    --color-input-disabled-content: #444444;
+}
+
+html {
+    color-scheme: dark;
+    background-color: var(--color-background-base);
+    color: var(--color-content-primary);
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-brd-strong) transparent;
+}
+
+.drawer-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-brd-strong) transparent;
+}
+
+html::-webkit-scrollbar,
+.drawer-scroll::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+html::-webkit-scrollbar-track,
+.drawer-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+html::-webkit-scrollbar-thumb,
+.drawer-scroll::-webkit-scrollbar-thumb {
+    background: var(--color-brd-strong);
+    border-radius: 999px;
+}
+
+body {
+    background-color: var(--color-background-base);
+    color: var(--color-content-primary);
+    font-family: var(--font-sans);
+}
