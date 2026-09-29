@@ -7,7 +7,7 @@ export function ToastifyProvider() {
         position="top-right"
         transition={Zoom}
         autoClose={3000}
-        hideProgressBar={false}
+        hideProgressBar={true}
         closeOnClick
         pauseOnFocusLoss
         draggable

@@ -4,28 +4,30 @@ import { cn } from "@/shared/utils/cn";
 import { CalendarIcon, ChevronDown, PencilIcon } from "lucide-react";
 import { useState } from "react";
 import { useCreateTransaction } from "../hooks/use-create-transaction";
-import type { CreateTransactionSchemaType } from "../schemas/create-transaction-schema";
+import type { TransactionType } from "../types/transactions";
 import { AmountInput } from "./amount-input";
 
 interface NewTransactionFormProps {
-    transactionType: CreateTransactionSchemaType["type"] | null;
+    transactionType: TransactionType | null;
+    onCloseDrawer: () => void;
 }
 
-export function NewTransactionForm({ transactionType }: NewTransactionFormProps) {
+export function NewTransactionForm({ transactionType, onCloseDrawer }: NewTransactionFormProps) {
     const [showDetails, setShowDetails] = useState(false);
+
+    if (!transactionType) return null;
+
     const {
-        handleSubmit,
         control,
         isSubmitting,
         handleCreateTransaction
-    } = useCreateTransaction()
+    } = useCreateTransaction({ transactionType, onCloseDrawer })
 
-    if (!transactionType) return null;
 
     return (
         <form
             className="flex min-h-0 flex-1 flex-col"
-            onSubmit={handleSubmit(handleCreateTransaction)}
+            onSubmit={handleCreateTransaction}
         >
             <div className="drawer-scroll mt-6 mr-3 min-h-0 flex-1 space-y-5 overflow-y-auto overscroll-y-contain pt-4 pr-4 pb-6 pl-6">
                 <AmountInput control={control} name="amount" autoFocus />
@@ -47,6 +49,8 @@ export function NewTransactionForm({ transactionType }: NewTransactionFormProps)
                     control={control}
                     name="date"
                 />
+
+
 
                 <div className="flex items-center gap-2 justify-between border border-brd-subtle rounded-2xl p-4 bg-background-surface">
                     <div className="flex flex-col items-start text-sm">

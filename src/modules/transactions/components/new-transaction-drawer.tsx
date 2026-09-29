@@ -29,7 +29,7 @@ export function NewTransactionDrawer() {
 
             <div
                 className={cn(
-                    "fixed right-4 bottom-48 z-998 flex flex-col items-start gap-2 rounded-xl bg-background-elevated p-2 transition-all duration-300",
+                    "fixed right-4 bottom-48 md:bottom-28 z-998 flex flex-col items-start gap-2 rounded-xl bg-background-elevated p-2 transition-all duration-300",
                     isOpenTransactionOptions
                         ? "translate-0 scale-100 opacity-100"
                         : "pointer-events-none translate-4 scale-95 opacity-0",
@@ -103,7 +103,7 @@ export function NewTransactionDrawer() {
                             </h1>
                         </header>
 
-                        <NewTransactionForm transactionType={transactionType} />
+                        <NewTransactionForm transactionType={transactionType} onCloseDrawer={closeDrawer} />
                     </section>
                 </>
             )}

@@ -1,5 +1,5 @@
 import { api } from "@/shared/api";
-import type { GetRecentTransactionsInput, GetRecentTransactionsOutput } from "./types/transactions";
+import type { CreateTransactionInput, CreateTransactionOutput, GetRecentTransactionsInput, GetRecentTransactionsOutput } from "./types/transactions";
 
 export class TransactionsService {
     static async getRecentTransactions(params: GetRecentTransactionsInput) {
@@ -10,5 +10,9 @@ export class TransactionsService {
                 limit: 5
             }
         });
+    }
+
+    static async createTransaction(data: CreateTransactionInput) {
+        return api.post<CreateTransactionOutput>("/transactions", data);
     }
 }

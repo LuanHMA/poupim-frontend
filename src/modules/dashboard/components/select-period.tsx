@@ -1,3 +1,4 @@
+import { transactionRelatedQueryKeys } from "@/modules/transactions/query-keys";
 import { StatisticsService } from "@/modules/statistics/statistics.service";
 import type { AvaiblePeriodsOutput } from "@/modules/statistics/types/statistics";
 import { Select } from "@/shared/components/ui";
@@ -6,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 export function SelectPeriod({ currentMonth, currentYear }: { currentMonth: number, currentYear: number }) {
     const { data, isLoading, isError } = useQuery<AvaiblePeriodsOutput>({
-        queryKey: ["available-periods"],
+        queryKey: transactionRelatedQueryKeys.availablePeriods,
         queryFn: StatisticsService.getAvailablePeriods,
     });
 

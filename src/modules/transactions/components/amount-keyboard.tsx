@@ -1,5 +1,6 @@
+import { Button } from "@/shared/components/ui";
 import { cn } from "@/shared/utils/cn";
-import { CheckIcon, XIcon } from "lucide-react";
+import { CheckIcon, Delete } from "lucide-react";
 import type { ComponentProps, PointerEvent, ReactNode } from "react";
 import { createPortal } from "react-dom";
 
@@ -22,7 +23,7 @@ function Key({ className, children, ...props }: ComponentProps<"button"> & { chi
             type="button"
             onPointerDown={keepInputFocus}
             className={cn(
-                "grid size-16 place-items-center rounded-full border border-brd-strong bg-background-elevated text-2xl font-medium text-content-primary",
+                "grid size-20 cursor-pointer place-items-center rounded-full border border-brd-strong bg-background-elevated text-2xl font-medium text-content-primary",
                 "transition-colors active:bg-brd-strong",
                 className,
             )}
@@ -40,9 +41,9 @@ export function AmountKeyboard({ open, onDigit, onBackspace, onConfirm }: Amount
         <div
             data-amount-keyboard
             onPointerDown={keepInputFocus}
-            className="fixed inset-x-0 bottom-0 z-1100 rounded-t-3xl border-t border-brd-default bg-background-elevated px-6 pt-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-[0_-16px_40px_rgba(0,0,0,0.45)]"
+            className="fixed inset-x-0 bottom-0 z-1100 rounded-t-4xl border-t border-brd-default bg-background-elevated px-6 pt-10 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-[0_-16px_40px_rgba(0,0,0,0.45)]"
         >
-            <div className="grid grid-cols-3 justify-items-center gap-x-6 gap-y-4">
+            <div className="grid grid-cols-3 place-items-center w-full max-w-[60%] mx-auto gap-6">
                 {DIGITS.map((digit) => (
                     <Key key={digit} onClick={() => onDigit(digit)}>
                         {digit}
@@ -53,21 +54,21 @@ export function AmountKeyboard({ open, onDigit, onBackspace, onConfirm }: Amount
                 </Key>
                 <Key onClick={() => onDigit("0")}>0</Key>
                 <Key aria-label="Apagar" onClick={onBackspace}>
-                    <XIcon className="size-5" />
+                    <Delete className="size-5" />
                 </Key>
             </div>
 
             <div className="mt-6 flex justify-center">
-                <button
-                    type="button"
+                <Button
                     data-amount-confirm
                     aria-label="Confirmar valor"
+
                     onPointerDown={keepInputFocus}
                     onClick={onConfirm}
-                    className="grid size-16 place-items-center rounded-full bg-background-accent text-content-inverse transition-colors hover:bg-background-accent-secondary"
+                    className="grid size-19 place-items-center rounded-full bg-background-accent text-content-inverse transition-colors hover:bg-background-accent-secondary"
                 >
                     <CheckIcon className="size-7" />
-                </button>
+                </Button>
             </div>
         </div>,
         document.body,

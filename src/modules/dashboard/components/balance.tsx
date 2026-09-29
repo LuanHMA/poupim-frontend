@@ -1,11 +1,12 @@
 import { StatisticsService } from "@/modules/statistics/statistics.service";
+import { transactionRelatedQueryKeys } from "@/modules/transactions/query-keys";
 import { formatations } from "@/shared/utils/formatations";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowDownLeft, ArrowUpRight } from "lucide-react";
 
 export function DashboardBalance({ currentMonth, currentYear }: { currentMonth: number, currentYear: number }) {
     const { data: balance, isLoading, isError } = useQuery({
-        queryKey: ["cash-flow", currentMonth, currentYear],
+        queryKey: transactionRelatedQueryKeys.cashFlowByPeriod(currentMonth, currentYear),
         queryFn: () => StatisticsService.getCashFlow({
             month: currentMonth,
             year: currentYear,

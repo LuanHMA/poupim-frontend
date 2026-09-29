@@ -1,3 +1,4 @@
+import { transactionRelatedQueryKeys } from "@/modules/transactions/query-keys";
 import { StatisticsService } from "@/modules/statistics/statistics.service";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
@@ -6,7 +7,7 @@ export function useTopCategories(currentMonth: number, currentYear: number) {
     const chartRef = useRef<HTMLDivElement>(null)
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
     const { data, isLoading, isError } = useQuery({
-        queryKey: ["top-categories", currentMonth, currentYear],
+        queryKey: transactionRelatedQueryKeys.topCategoriesByPeriod(currentMonth, currentYear),
         queryFn: () => StatisticsService.getTopExpenseCategories({
             month: currentMonth,
             year: currentYear,

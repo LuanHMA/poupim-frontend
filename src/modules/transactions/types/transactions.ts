@@ -1,3 +1,7 @@
+export type TransactionType = "INCOME" | "EXPENSE";
+
+export type TransactionStatus = "PENDING" | "PAID" | "RECEIVED";
+
 export type Transaction = {
     id: number
     amount: number
@@ -7,8 +11,8 @@ export type Transaction = {
     ignore: boolean
     month: number
     observation: string | null
-    status: "PENDING" | "PAID" | "RECEIVED"
-    type: "INCOME" | "EXPENSE"
+    status: TransactionStatus
+    type: TransactionType
     year: number
 }
 
@@ -38,4 +42,20 @@ export type GetTopExpenseCategoriesOutput = {
     topExpenseCategories: TopExpenseCategory[]
     message: string
     success: boolean
+}
+
+export type CreateTransactionInput = {
+    description: string
+    observation?: string
+    category_id: number
+    amount: number
+    type: TransactionType
+    status: TransactionStatus
+    ignore: boolean
+    fixed: boolean
+    date: string
+}
+
+export type CreateTransactionOutput = {
+    transaction: Transaction
 }

@@ -1,6 +1,6 @@
 import { useIsMobile } from "@/shared/hooks/use-is-mobile";
 import { useEffect, useState } from "react";
-import type { CreateTransactionSchemaType } from "../schemas/create-transaction-schema";
+import type { TransactionType } from "../types/transactions";
 
 export function useTransactionDrawer() {
     const { isMobile } = useIsMobile({});
@@ -8,9 +8,9 @@ export function useTransactionDrawer() {
     const [isVisible, setIsVisible] = useState(false);
 
     const [isOpenTransactionOptions, setIsOpenTransactionOptions] = useState(false);
-    const [transactionType, setTransactionType] = useState<CreateTransactionSchemaType["type"] | null>(null);
+    const [transactionType, setTransactionType] = useState<TransactionType | null>(null);
 
-    const handleOpenDrawer = (type: CreateTransactionSchemaType["type"]) => {
+    const handleOpenDrawer = (type: TransactionType) => {
         setTransactionType(type);
         setIsOpenTransactionOptions(false);
         openDrawer();

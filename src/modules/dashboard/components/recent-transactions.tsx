@@ -1,3 +1,4 @@
+import { transactionQueryKeys } from "@/modules/transactions/query-keys";
 import { TransactionsService } from "@/modules/transactions/transactions.service";
 import type { GetRecentTransactionsOutput } from "@/modules/transactions/types/transactions";
 import { formatations } from "@/shared/utils/formatations";
@@ -7,7 +8,7 @@ import { Link } from "react-router-dom";
 
 export function RecentTransactions({ currentMonth, currentYear }: { currentMonth: number, currentYear: number }) {
     const { data, isLoading, isError } = useQuery<GetRecentTransactionsOutput>({
-        queryKey: ["recent-transactions", currentMonth, currentYear],
+        queryKey: transactionQueryKeys.recentByPeriod(currentMonth, currentYear),
         queryFn: () => TransactionsService.getRecentTransactions({
             month: currentMonth,
             year: currentYear,
