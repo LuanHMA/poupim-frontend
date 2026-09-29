@@ -1,6 +1,7 @@
 export type {
-    ButtonSize, ButtonVariant, InputProps, SelectOption, SelectProps, SwitchProps
+    BadgeSize, BadgeVariant, ButtonSize, ButtonVariant, InputProps, SelectOption, SelectProps, SwitchProps
 } from "@/shared/types/ui";
+export { Badge, type BadgeProps } from "./badge";
 export { Button, type ButtonProps } from "./button";
 export { Input } from "./input";
 export { Select } from "./select";

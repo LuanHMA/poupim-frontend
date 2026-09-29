@@ -2,9 +2,15 @@ import { StatisticsService } from "@/modules/statistics/statistics.service";
 import { transactionRelatedQueryKeys } from "@/modules/transactions/query-keys";
 import { formatations } from "@/shared/utils/formatations";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowDownLeft, ArrowUpRight } from "lucide-react";
+import { ArrowDownLeft, ArrowUpRight, Wallet2 } from "lucide-react";
 
-export function DashboardBalance({ currentMonth, currentYear }: { currentMonth: number, currentYear: number }) {
+interface BalanceProps {
+    currentMonth: number;
+    currentYear: number;
+    visualEffects?: boolean;
+}
+
+export function Balance({ currentMonth, currentYear, visualEffects = true }: BalanceProps) {
     const { data: balance, isLoading, isError } = useQuery({
         queryKey: transactionRelatedQueryKeys.cashFlowByPeriod(currentMonth, currentYear),
         queryFn: () => StatisticsService.getCashFlow({
@@ -23,24 +29,27 @@ export function DashboardBalance({ currentMonth, currentYear }: { currentMonth: 
 
     return (
         <>
-            <section className="bg-linear-to-t from-background-surface to-background-elevated rounded-xl p-6 space-y-6 relative z-1 overflow-hidden sm:hidden">
-                <div className="pointer-events-none absolute -left-8 -top-10 size-24 rounded-full bg-background-accent/60 blur-3xl -z-1" />
-                <div className="pointer-events-none absolute -right-14 top-[18%] size-24 rounded-full bg-background-accent/55 blur-3xl -z-1" />
-                <div className="pointer-events-none absolute left-[38%] -bottom-12 size-20 rounded-full bg-background-accent/40 blur-3xl -z-1" />
+            <section className="bg-linear-to-t from-background-surface to-background-elevated rounded-xl p-6 space-y-4 relative z-1 overflow-hidden sm:hidden">
+                {visualEffects && <div className="pointer-events-none absolute -left-8 -top-10 size-24 rounded-full bg-background-accent/60 blur-3xl -z-1" />}
+                {visualEffects && <div className="pointer-events-none absolute -right-14 top-[18%] size-24 rounded-full bg-background-accent/55 blur-3xl -z-1" />}
+                {visualEffects && <div className="pointer-events-none absolute left-[38%] -bottom-12 size-20 rounded-full bg-background-accent/40 blur-3xl -z-1" />}
 
                 <div className="flex flex-col items-center gap-1 z-1">
-                    <h2 className="text-sm text-content-muted font-medium">Saldo</h2>
+                    <h2 className="text-sm text-content-muted font-medium flex items-center gap-2">
+                        <Wallet2 className="size-4 text-content-primary" />
+                        Saldo
+                    </h2>
                     <p className=" text-content-primary font-bold text-4xl">
                         {formatations.toBRL(balance.cashFlow.balance ?? 0)}
                     </p>
 
                 </div>
 
-                <div className="flex justify-around gap-6 items-center z-1">
+                <div className="flex justify-evenly gap-6 items-center z-1">
                     <div className="flex flex-col items-center gap-1">
                         <p className="text-sm text-content-muted flex items-center gap-1">
                             <ArrowDownLeft className="size-4 text-content-success" />
-                            Entradas
+                            Receitas
                         </p>
                         <p className="text-base font-medium text-content-primary">
                             {formatations.toBRL(balance.cashFlow.total_income ?? 0)}
@@ -52,7 +61,7 @@ export function DashboardBalance({ currentMonth, currentYear }: { currentMonth: 
                     <div className="flex flex-col items-center gap-1">
                         <p className="text-sm text-content-muted flex items-center gap-1">
                             <ArrowUpRight className="size-4 text-content-danger" />
-                            Saídas
+                            Despesas
                         </p>
                         <p className="text-base font-medium text-content-primary">
                             {formatations.toBRL(balance.cashFlow.total_expense ?? 0)}

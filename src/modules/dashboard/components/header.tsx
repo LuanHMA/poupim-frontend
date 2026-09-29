@@ -1,6 +1,6 @@
 import { useSession } from "@/modules/auth/context/session-context";
 import { getGreeting } from "@/modules/dashboard/utils/get-greeting";
-import { SelectPeriod } from "./select-period";
+import { SelectPeriod } from "../../statistics/components/select-period";
 
 export function DashboardHeader({ currentMonth, currentYear }: { currentMonth: number, currentYear: number }) {
     const { user, isLoading } = useSession();
@@ -16,7 +16,7 @@ export function DashboardHeader({ currentMonth, currentYear }: { currentMonth: n
                 <h1 className="text-3xl text-content-primary">{username}</h1>
             </div>
 
-            <SelectPeriod currentMonth={currentMonth} currentYear={currentYear} />
+            <SelectPeriod currentMonth={currentMonth} currentYear={currentYear} navigateTo="dashboard" />
         </header>
     )
 }

@@ -5,7 +5,11 @@ export type TransactionStatus = "PENDING" | "PAID" | "RECEIVED";
 export type Transaction = {
     id: number
     amount: number
-    category_name: string | null
+    category: {
+        name: string
+        color: string
+        icon: string
+    }
     created_at: string
     description: string
     ignore: boolean
@@ -16,12 +20,12 @@ export type Transaction = {
     year: number
 }
 
-export type GetRecentTransactionsInput = {
+export type GetTransactionsInput = {
     month: number
     year: number
 }
 
-export type GetRecentTransactionsOutput = {
+export type GetTransactionsOutput = {
     transactions: Transaction[];
     message: string
     success: boolean

@@ -1,11 +1,17 @@
-import { transactionRelatedQueryKeys } from "@/modules/transactions/query-keys";
 import { StatisticsService } from "@/modules/statistics/statistics.service";
 import type { AvaiblePeriodsOutput } from "@/modules/statistics/types/statistics";
+import { transactionRelatedQueryKeys } from "@/modules/transactions/query-keys";
 import { Select } from "@/shared/components/ui";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
-export function SelectPeriod({ currentMonth, currentYear }: { currentMonth: number, currentYear: number }) {
+interface SelectPeriodProps {
+    currentMonth: number
+    currentYear: number
+    navigateTo: string
+}
+
+export function SelectPeriod({ currentMonth, currentYear, navigateTo }: SelectPeriodProps) {
     const { data, isLoading, isError } = useQuery<AvaiblePeriodsOutput>({
         queryKey: transactionRelatedQueryKeys.availablePeriods,
         queryFn: StatisticsService.getAvailablePeriods,
@@ -17,7 +23,7 @@ export function SelectPeriod({ currentMonth, currentYear }: { currentMonth: numb
     if (isError) return <div>Erro ao carregar períodos</div>;
 
     const periods = data?.periods.map(({ month, year }) => {
-        const monthName = new Date(year, month-1).toLocaleString("pt-BR", { month: "long" });
+        const monthName = new Date(year, month - 1).toLocaleString("pt-BR", { month: "long" });
 
         return {
             label: `${monthName}/${year}`,
@@ -29,7 +35,7 @@ export function SelectPeriod({ currentMonth, currentYear }: { currentMonth: numb
 
     const onChangePeriod = (value: string) => {
         const [month, year] = value.split("/").map(Number);
-        navigate(`/dashboard?month=${month}&year=${year}`);
+        navigate(`/${navigateTo}?month=${month}&year=${year}`);
     }
 
     return (

@@ -1,13 +1,22 @@
 import { api } from "@/shared/api";
-import type { CreateTransactionInput, CreateTransactionOutput, GetRecentTransactionsInput, GetRecentTransactionsOutput } from "./types/transactions";
+import type { CreateTransactionInput, CreateTransactionOutput, GetTransactionsInput, GetTransactionsOutput } from "./types/transactions";
 
 export class TransactionsService {
-    static async getRecentTransactions(params: GetRecentTransactionsInput) {
-        return api.get<GetRecentTransactionsOutput>("/transactions", {
+    static async getRecentTransactions(params: GetTransactionsInput) {
+        return api.get<GetTransactionsOutput>("/transactions", {
             params: {
                 month: params.month,
                 year: params.year,
                 limit: 5
+            }
+        });
+    }
+
+    static async getTransactions(params: GetTransactionsInput) {
+        return api.get<GetTransactionsOutput>("/transactions", {
+            params: {
+                month: params.month,
+                year: params.year,
             }
         });
     }

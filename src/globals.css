@@ -104,6 +104,24 @@ body {
     --color-input-disabled-bg: #080808;
     --color-input-disabled-border: #121212;
     --color-input-disabled-content: #444444;
+
+    /* ================== BADGE ================== */
+    --color-badge-default-bg: #1F1F24;
+    --color-badge-default-content: #FFFFFF;
+    --color-badge-accent-bg: rgba(200, 240, 71, 0.15);
+    --color-badge-accent-content: #C8F047;
+    --color-badge-success-bg: rgba(61, 220, 132, 0.15);
+    --color-badge-success-content: #3DDC84;
+    --color-badge-danger-bg: rgba(255, 107, 107, 0.15);
+    --color-badge-danger-content: #FF6B6B;
+    --color-badge-warning-bg: rgba(217, 119, 6, 0.15);
+    --color-badge-warning-content: #F59E0B;
+    --color-badge-info-bg: rgba(59, 130, 246, 0.15);
+    --color-badge-info-content: #3B82F6;
+    --color-badge-outline-border: #2C2C32;
+    --color-badge-outline-content: #FFFFFF;
+    --color-badge-muted-bg: #16161A;
+    --color-badge-muted-content: #A3A3A3;
 }
 
 html {

@@ -12,6 +12,18 @@ export type ButtonVariant =
 
 export type ButtonSize = "sm" | "md" | "lg" | "full" | "icon";
 
+export type BadgeVariant =
+    | "default"
+    | "accent"
+    | "success"
+    | "danger"
+    | "warning"
+    | "info"
+    | "outline"
+    | "muted";
+
+export type BadgeSize = "sm" | "md" | "lg";
+
 export type SelectOption = {
     value: string;
     label: string;
