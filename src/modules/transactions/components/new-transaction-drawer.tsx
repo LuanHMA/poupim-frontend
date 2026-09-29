@@ -1,78 +1,78 @@
 import { Button } from "@/shared/components/ui";
-import { useIsMobile } from "@/shared/hooks/use-is-mobile";
 import { cn } from "@/shared/utils/cn";
-import { PlusIcon, XIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ArrowDownLeft, ArrowUpRight, PlusIcon, XIcon } from "lucide-react";
+import { useTransactionDrawer } from "../hooks/use-transaction-drawer";
 import { NewTransactionForm } from "./new-transaction-form";
 
 export function NewTransactionDrawer() {
-    const { isMobile } = useIsMobile({});
-    const [isMounted, setIsMounted] = useState(false);
-    const [isVisible, setIsVisible] = useState(false);
-
-    const openDrawer = () => {
-        setIsMounted(true);
-    }
-
-    const closeDrawer = () => {
-        setIsVisible(false);
-    }
-
-    useEffect(() => {
-        if (!isMounted) return;
-
-        const frame = requestAnimationFrame(() => {
-            setIsVisible(true);
-        });
-
-        return () => cancelAnimationFrame(frame);
-    }, [isMounted]);
-
-    useEffect(() => {
-        if (!isMounted || !isMobile) return;
-
-        const { body, documentElement } = document;
-        const previousBodyOverflow = body.style.overflow;
-        const previousHtmlOverflow = documentElement.style.overflow;
-
-        body.style.overflow = "hidden";
-        documentElement.style.overflow = "hidden";
-
-        return () => {
-            body.style.overflow = previousBodyOverflow;
-            documentElement.style.overflow = previousHtmlOverflow;
-        };
-    }, [isMounted, isMobile]);
-
-    const handleTransitionEnd = () => {
-        if (!isVisible) {
-            setIsMounted(false);
-        }
-    }
+    const {
+        isMounted,
+        isVisible,
+        closeDrawer,
+        handleTransitionEnd,
+        isOpenTransactionOptions,
+        transactionType,
+        handleOpenDrawer,
+        toggleTransactionOptions,
+    } = useTransactionDrawer();
 
     return (
         <>
-            {/* Botão de abrir o drawer */}
-            <div className="fixed bottom-28 right-4 z-998 sm:bottom-10">
-                <Button className="w-14 h-14 rounded-xl" onClick={openDrawer}>
-                    <PlusIcon />
+            {isOpenTransactionOptions && (
+                <button
+                    type="button"
+                    aria-label="Fechar opções de transação"
+                    className="fixed inset-0 z-[997] cursor-pointer border-0 bg-background-base/80 p-0"
+                    onClick={toggleTransactionOptions}
+                />
+            )}
+
+            <div
+                className={cn(
+                    "fixed right-4 bottom-48 z-998 flex flex-col items-start gap-2 rounded-xl bg-background-elevated p-2 transition-all duration-300",
+                    isOpenTransactionOptions
+                        ? "translate-0 scale-100 opacity-100"
+                        : "pointer-events-none translate-4 scale-95 opacity-0",
+                )}
+            >
+                <Button
+                    variant="outline"
+                    size="full"
+                    leftIcon={<ArrowDownLeft className="text-content-success" />}
+                    onClick={() => handleOpenDrawer("INCOME")}
+                >
+                    Receita
+                </Button>
+                <Button
+                    variant="outline"
+                    size="full"
+                    leftIcon={<ArrowUpRight className="text-content-danger" />}
+                    onClick={() => handleOpenDrawer("EXPENSE")}
+                >
+                    Despesa
                 </Button>
             </div>
 
+            <div className="fixed bottom-28 right-4 z-998 flex flex-col gap-4 sm:bottom-10">
+                <Button className="w-14 h-14 rounded-xl group" onClick={toggleTransactionOptions}>
+                    <PlusIcon className={`${isOpenTransactionOptions && 'group-hover:rotate-135'} transition-all duration-800`} />
+                </Button>
+            </div>
             {isMounted && (
                 <>
                     <button
                         type="button"
                         aria-label="Fechar painel"
                         className={cn(
-                            "fixed inset-0 z-998 hidden cursor-pointer border-0 bg-black/60 p-0 transition-opacity duration-300 ease-out sm:block",
+                            "fixed inset-0 z-999 hidden cursor-pointer border-0 bg-black/60 p-0 transition-opacity duration-300 ease-out sm:block",
                             isVisible ? "opacity-100" : "opacity-0",
                         )}
                         onClick={closeDrawer}
                     />
+
                     <section
                         className={cn(
-                            "fixed z-999 flex flex-col overflow-hidden bg-background-base p-6 transition-transform duration-300 ease-out",
+                            "fixed z-1000 flex flex-col overflow-hidden bg-background-base transition-transform duration-300 ease-out",
                             "inset-0 h-dvh max-h-dvh w-full",
                             "sm:inset-y-0 sm:left-auto sm:right-0 sm:h-full sm:max-h-full sm:w-1/2",
                             "sm:border-l sm:border-brd-default sm:bg-background-surface",
@@ -83,19 +83,27 @@ export function NewTransactionDrawer() {
                         )}
                         onTransitionEnd={handleTransitionEnd}
                     >
-                        <header className="relative shrink-0">
-                            <Button size="icon" className="absolute top-0 right-0" onClick={closeDrawer} variant="outline">
+                        <header className="relative mt-6 flex h-10 shrink-0 items-center justify-center px-6">
+                            <Button size="icon" className="absolute right-6" onClick={closeDrawer} variant="outline">
                                 <XIcon className="text-content-danger" />
                             </Button>
 
-                            <h1 className="px-12 text-center text-xl font-bold text-content-primary">
-                                Nova Despesa
+                            <h1 className="px-12 text-center text-xl font-bold text-content-primary flex items-center gap-2">
+                                {transactionType === "INCOME" ? (
+                                    <>
+                                        <ArrowDownLeft className="text-content-success" />
+                                        Nova Receita
+                                    </>
+                                ) : (
+                                    <>
+                                        <ArrowUpRight className="text-content-danger" />
+                                        Nova Despesa
+                                    </>
+                                )}
                             </h1>
                         </header>
 
-                        <div className="drawer-scroll min-h-0 flex-1 overflow-y-auto overscroll-y-contain">
-                            <NewTransactionForm transactionType="income" />
-                        </div>
+                        <NewTransactionForm transactionType={transactionType} />
                     </section>
                 </>
             )}

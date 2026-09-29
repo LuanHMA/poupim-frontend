@@ -63,16 +63,21 @@ export type SelectProps<TFieldValues extends FieldValues = FieldValues> =
     | (SelectBaseProps & FormFieldControlProps<TFieldValues>)
     | SelectBaseProps;
 
-export type SwitchProps = Omit<
+export type SwitchBaseProps = Omit<
     ComponentProps<"button">,
-    "onChange" | "value"
+    "onChange" | "value" | "name"
 > & {
+    name?: string;
     label?: string;
+    error?: string;
     hint?: string;
     checked?: boolean;
     defaultChecked?: boolean;
     onCheckedChange?: (checked: boolean) => void;
     required?: boolean;
-    name?: string;
     value?: string;
 };
+
+export type SwitchProps<TFieldValues extends FieldValues = FieldValues> =
+    | (SwitchBaseProps & FormFieldControlProps<TFieldValues>)
+    | SwitchBaseProps;

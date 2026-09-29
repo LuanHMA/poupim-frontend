@@ -1,12 +1,14 @@
-import { useId } from "react";
-import { Label, Switch as SwitchPrimitive } from "radix-ui";
-import type { SwitchProps } from "@/shared/types/ui";
+import type { SwitchBaseProps, SwitchProps } from "@/shared/types/ui";
 import { cn } from "@/shared/utils/cn";
+import { Label, Switch as SwitchPrimitive } from "radix-ui";
+import { useId } from "react";
+import { Controller, type FieldValues } from "react-hook-form";
 
-export function Switch({
+function SwitchControl({
     id,
     name,
     label,
+    error,
     hint,
     className,
     disabled,
@@ -15,10 +17,12 @@ export function Switch({
     defaultChecked,
     onCheckedChange,
     value,
+    ref,
     ...props
-}: SwitchProps) {
+}: SwitchBaseProps) {
     const generatedId = useId();
     const switchId = id ?? generatedId;
+    const errorId = `${switchId}-error`;
     const hintId = `${switchId}-hint`;
 
     return (
@@ -26,6 +30,7 @@ export function Switch({
             <div className="flex items-center gap-3">
                 <SwitchPrimitive.Root
                     {...props}
+                    ref={ref}
                     id={switchId}
                     name={name}
                     value={value}
@@ -34,13 +39,17 @@ export function Switch({
                     onCheckedChange={onCheckedChange}
                     disabled={disabled}
                     required={required}
-                    aria-describedby={hint ? hintId : undefined}
+                    aria-invalid={Boolean(error)}
+                    aria-describedby={
+                        error ? errorId : hint ? hintId : undefined
+                    }
                     className={cn(
                         "peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border border-brd-default transition-colors",
                         "bg-background-elevated",
                         "data-[state=checked]:border-brd-accent data-[state=checked]:bg-background-accent",
                         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-input-focus-ring",
                         "disabled:cursor-not-allowed disabled:bg-input-disabled-bg disabled:border-input-disabled-border",
+                        error && "border-input-error-border",
                         className,
                     )}
                 >
@@ -66,11 +75,43 @@ export function Switch({
                 ) : null}
             </div>
 
-            {hint ? (
+            {error ? (
+                <p id={errorId} className="text-xs text-content-danger">
+                    {error}
+                </p>
+            ) : hint ? (
                 <p id={hintId} className="text-xs text-content-muted">
                     {hint}
                 </p>
             ) : null}
         </div>
     );
+}
+
+export function Switch<TFieldValues extends FieldValues = FieldValues>(
+    props: SwitchProps<TFieldValues>,
+) {
+    if ("control" in props && props.control) {
+        const { control, name, error, defaultChecked: _defaultChecked, ...rest } = props;
+
+        return (
+            <Controller
+                control={control}
+                name={name}
+                render={({ field, fieldState }) => (
+                    <SwitchControl
+                        {...rest}
+                        name={field.name}
+                        checked={Boolean(field.value)}
+                        onCheckedChange={field.onChange}
+                        onBlur={field.onBlur}
+                        ref={field.ref}
+                        error={error ?? fieldState.error?.message}
+                    />
+                )}
+            />
+        );
+    }
+
+    return <SwitchControl {...props} />;
 }

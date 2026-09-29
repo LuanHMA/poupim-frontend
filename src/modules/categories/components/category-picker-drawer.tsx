@@ -44,6 +44,8 @@ export function CategoryPickerDrawer({
             <div className="absolute inset-x-0 bottom-0 rounded-t-3xl border-t border-brd-default bg-background-elevated px-6 pt-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
                 <h2 className="text-center text-sm font-semibold text-content-primary">Selecione uma categoria</h2>
 
+                
+
                 <div className="drawer-scroll mt-5 max-h-[50dvh] overflow-y-auto">
                     {isLoading ? (
                         <p className="py-8 text-center text-sm text-content-muted">Carregando categorias...</p>

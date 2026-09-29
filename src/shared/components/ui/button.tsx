@@ -24,8 +24,8 @@ const sizeClassName: Record<ButtonSize, string> = {
     icon: "w-9 h-9 rounded-xl",
     sm: "h-8 px-3 text-xs",
     md: "h-11 px-4 text-sm",
-    lg: "h-12 px-6 text-base",
-    full: "w-full h-12 sm:h-11 px-6 text-base",
+    lg: "h-12 px-6 text-sm",
+    full: "w-full h-12 sm:h-11 px-6 text-sm",
 };
 
 const iconSizeClassName: Record<ButtonSize, string> = {
