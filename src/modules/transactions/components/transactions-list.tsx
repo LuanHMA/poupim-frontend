@@ -6,10 +6,26 @@ import { Clock } from "lucide-react"
 import { transactionQueryKeys } from "../query-keys"
 import { TransactionsService } from "../transactions.service"
 import type { GetTransactionsOutput, Transaction } from "../types/transactions"
+import { TransactionsFilters } from "./transactions-filters"
 
 interface TransactionsListProps {
     month: number
     year: number
+}
+
+const statusStyles = {
+    PENDING: {
+        color: "text-content-primary",
+        label: "Pendente",
+    },
+    PAID: {
+        color: "text-content-success",
+        label: "Pago",
+    },
+    RECEIVED: {
+        color: "text-content-success",
+        label: "Recebido",
+    },
 }
 
 export function TransactionsList({ month, year }: TransactionsListProps) {
@@ -33,23 +49,10 @@ export function TransactionsList({ month, year }: TransactionsListProps) {
         transactionsByDay.set(day, items);
     });
 
-    const statusStyles = {
-        PENDING: {
-            color: "text-content-primary",
-            label: "Pendente",
-        },
-        PAID: {
-            color: "text-content-success",
-            label: "Pago",
-        },
-        RECEIVED: {
-            color: "text-content-success",
-            label: "Recebido",
-        },
-    }
-
     return (
-        <div>
+        <div className="space-y-6">
+            <TransactionsFilters />
+
             {Array.from(transactionsByDay.entries()).map(([day, transactions]) => (
                 <div key={day} className="space-y-6 pb-6">
                     <h3 className="text-sm text-content-muted font-medium">{formatations.toDDMM(day)}</h3>
