@@ -23,7 +23,7 @@ function Key({ className, children, ...props }: ComponentProps<"button"> & { chi
             type="button"
             onPointerDown={keepInputFocus}
             className={cn(
-                "grid size-20 cursor-pointer place-items-center rounded-full border border-brd-strong bg-background-elevated text-2xl font-medium text-content-primary",
+                "grid size-18 cursor-pointer place-items-center rounded-full border border-brd-strong bg-background-elevated text-2xl font-medium text-content-primary",
                 "transition-colors active:bg-brd-strong",
                 className,
             )}
@@ -43,7 +43,7 @@ export function AmountKeyboard({ open, onDigit, onBackspace, onConfirm }: Amount
             onPointerDown={keepInputFocus}
             className="fixed inset-x-0 bottom-0 z-1100 rounded-t-4xl border-t border-brd-default bg-background-elevated px-6 pt-10 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-[0_-16px_40px_rgba(0,0,0,0.45)]"
         >
-            <div className="grid grid-cols-3 place-items-center w-full max-w-[60%] mx-auto gap-6">
+            <div className="grid grid-cols-3 place-items-center w-full max-w-[60%] mx-auto gap-8">
                 {DIGITS.map((digit) => (
                     <Key key={digit} onClick={() => onDigit(digit)}>
                         {digit}

@@ -54,8 +54,8 @@ export function NewTransactionForm({ transactionType, onCloseDrawer }: NewTransa
 
                 <div className="flex items-center gap-2 justify-between border border-brd-subtle rounded-2xl p-4 bg-background-surface">
                     <div className="flex flex-col items-start text-sm">
-                        <h2 className="text-sm font-medium text-content-primary">Foi paga</h2>
-                        <p className="text-xs text-content-muted">Define se a transação foi paga ou não.</p>
+                        <h2 className="text-sm font-medium text-content-primary">{transactionType === "INCOME" ? "Recebida" : "Paga"}</h2>
+                        <p className="text-xs text-content-muted">{transactionType === "INCOME" ? "Define se a transação foi recebida ou não." : "Define se a transação foi paga ou não."}</p>
                     </div>
                     <Switch control={control} name="status" />
                 </div>

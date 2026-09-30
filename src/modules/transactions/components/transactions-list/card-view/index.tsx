@@ -1,16 +1,11 @@
 import { CategoryIcon } from "@/modules/categories/components/category-icon"
 import { Badge } from "@/shared/components/ui"
 import { formatations } from "@/shared/utils/formatations"
-import { useQuery } from "@tanstack/react-query"
 import { Clock } from "lucide-react"
-import { transactionQueryKeys } from "../query-keys"
-import { TransactionsService } from "../transactions.service"
-import type { GetTransactionsOutput, Transaction } from "../types/transactions"
-import { TransactionsFilters } from "./transactions-filters"
+import type { Transaction } from "../../../types/transactions"
 
-interface TransactionsListProps {
-    month: number
-    year: number
+interface TransactionsCardsViewProps {
+    transactions: Transaction[]
 }
 
 const statusStyles = {
@@ -28,18 +23,10 @@ const statusStyles = {
     },
 }
 
-export function TransactionsList({ month, year }: TransactionsListProps) {
-    const { data, isLoading, isError } = useQuery<GetTransactionsOutput>({
-        queryKey: transactionQueryKeys.listByPeriod(month, year),
-        queryFn: () => TransactionsService.getTransactions({ month, year }),
-    })
-
-    if (isLoading) return <div>Carregando...</div>;
-    if (isError) return <div>Erro ao carregar transações</div>;
-
+export function TransactionsCardsView({ transactions }: TransactionsCardsViewProps) {
     const transactionsByDay = new Map<string, Transaction[]>();
 
-    data?.transactions.forEach(transaction => {
+    transactions.forEach(transaction => {
         const day = new Date(transaction.created_at).toLocaleDateString("en-CA", {
             timeZone: "America/Sao_Paulo",
         })
@@ -50,9 +37,7 @@ export function TransactionsList({ month, year }: TransactionsListProps) {
     });
 
     return (
-        <div className="space-y-6">
-            <TransactionsFilters />
-
+        <div>
             {Array.from(transactionsByDay.entries()).map(([day, transactions]) => (
                 <div key={day} className="space-y-6 pb-6">
                     <h3 className="text-sm text-content-muted font-medium">{formatations.toDDMM(day)}</h3>

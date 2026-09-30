@@ -22,7 +22,7 @@ export function NewTransactionDrawer() {
                 <button
                     type="button"
                     aria-label="Fechar opções de transação"
-                    className="fixed inset-0 z-[997] cursor-pointer border-0 bg-background-base/80 p-0"
+                    className="fixed inset-0 z-997 cursor-pointer border-0 bg-background-base/80 p-0"
                     onClick={toggleTransactionOptions}
                 />
             )}
