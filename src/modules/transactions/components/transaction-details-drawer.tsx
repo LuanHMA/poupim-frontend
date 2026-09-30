@@ -105,7 +105,7 @@ export function TransactionDetailsDrawer({ transaction, onClose }: TransactionDe
                             <h2 className="text-sm font-medium text-content-muted">Data da transação</h2>
                         </div>
 
-                        <p className="text-sm text-content-primary">{formatations.dateTime(transaction.created_at)}</p>
+                        <p className="text-sm text-content-primary">{formatations.dateTime(transaction.transaction_date)}</p>
                     </section>
 
                     <section className="flex items-center justify-between gap-1">

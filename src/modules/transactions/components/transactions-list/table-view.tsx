@@ -46,7 +46,7 @@ export function TransactionsTableView({ transactions }: TransactionsTableViewPro
                     <tbody>
                         {transactions.map((transaction) => (
                             <tr key={transaction.id} className="border-b border-brd-subtle last:border-b-0">
-                                <td className="px-4 py-3 text-content-muted">{formatations.dateTime(transaction.created_at)}</td>
+                                <td className="px-4 py-3 text-content-muted">{formatations.dateTime(transaction.transaction_date)}</td>
                                 <td className="px-4 py-3 font-medium text-content-primary">{transaction.description}</td>
                                 <td className="px-4 py-3 text-content-primary">{transaction.category.name}</td>
                                 <td className={`px-4 py-3 font-medium ${transaction.type === "INCOME" ? "text-content-success" : "text-content-danger"}`}>

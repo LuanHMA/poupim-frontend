@@ -31,6 +31,8 @@ export function TransactionsList({ month, year }: TransactionsListProps) {
         listRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
     }
 
+    console.log(data)
+
     return (
         <div ref={listRef} className="scroll-mt-6 space-y-6">
             <TransactionsFilters />

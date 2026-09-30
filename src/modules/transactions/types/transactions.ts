@@ -12,6 +12,7 @@ export type Transaction = {
         icon: string
     }
     created_at: string
+    transaction_date: string
     description: string
     ignore: boolean
     month: number

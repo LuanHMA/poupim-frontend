@@ -6,6 +6,7 @@ import { invalidateCreatedTransactionQueries } from "../query-keys"
 import { createTransactionSchema, type CreateTransactionSchemaType } from "../schemas/create-transaction-schema"
 import { TransactionsService } from "../transactions.service"
 import type { TransactionType } from "../types/transactions"
+import { buildTransactionDate, toDateInputValue } from "../utils/transaction-date"
 
 interface UseCreateTransactionProps {
     transactionType: TransactionType
@@ -25,7 +26,7 @@ export function useCreateTransaction({ transactionType, onCloseDrawer }: UseCrea
         resolver: zodResolver(createTransactionSchema),
         defaultValues: {
             amount: 0,
-            date: new Date().toISOString().split('T')[0],
+            date: toDateInputValue(new Date()),
             ignore: false,
             fixed: false,
             status: true,
@@ -46,6 +47,7 @@ export function useCreateTransaction({ transactionType, onCloseDrawer }: UseCrea
                 status,
                 type: transactionType,
                 category_id: data.categoryId,
+                date: buildTransactionDate(data.date),
             })
 
             const [yearFromDate, monthFromDate] = data.date.split("-").map(Number)

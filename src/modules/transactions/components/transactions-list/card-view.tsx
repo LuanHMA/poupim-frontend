@@ -5,26 +5,38 @@ import { formatations } from "@/shared/utils/formatations"
 import { Clock } from "lucide-react"
 import { useState } from "react"
 import type { Transaction } from "../../types/transactions"
+import { toDateInputValue } from "../../utils/transaction-date"
 import { TransactionDetailsDrawer } from "../transaction-details-drawer"
 
 interface TransactionsCardsViewProps {
     transactions: Transaction[]
 }
 
+function groupByDay(transactions: Transaction[]) {
+    const transactionsByDay = new Map<string, Transaction[]>()
+
+    for (const transaction of transactions) {
+        const day = toDateInputValue(transaction.transaction_date)
+        const items = transactionsByDay.get(day)
+
+        if (items) {
+            items.push(transaction)
+            continue
+        }
+
+        transactionsByDay.set(day, [transaction])
+    }
+
+    for (const items of transactionsByDay.values()) {
+        items.sort((a, b) => b.transaction_date.localeCompare(a.transaction_date))
+    }
+
+    return Array.from(transactionsByDay.entries()).sort(([a], [b]) => b.localeCompare(a))
+}
 
 export function TransactionsCardsView({ transactions }: TransactionsCardsViewProps) {
     const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null)
-    const transactionsByDay = new Map<string, Transaction[]>();
-
-    transactions.forEach(transaction => {
-        const day = new Date(transaction.created_at).toLocaleDateString("en-CA", {
-            timeZone: "America/Sao_Paulo",
-        })
-
-        const items = transactionsByDay.get(day) || [];
-        items.push(transaction);
-        transactionsByDay.set(day, items);
-    });
+    const transactionsByDay = groupByDay(transactions)
 
     return (
         <div>
@@ -35,11 +47,11 @@ export function TransactionsCardsView({ transactions }: TransactionsCardsViewPro
                 />
             )}
 
-            {Array.from(transactionsByDay.entries()).map(([day, transactions]) => (
+            {transactionsByDay.map(([day, transactionsOfDay]) => (
                 <div key={day} className="space-y-5 pb-6">
                     <h3 className="text-sm text-content-muted font-medium">{formatations.dayMonth(day)}</h3>
                     <div className="flex flex-col gap-4">
-                        {transactions.map((transaction) => (
+                        {transactionsOfDay.map((transaction) => (
                             <button
                                 key={transaction.id}
                                 type="button"
@@ -61,7 +73,7 @@ export function TransactionsCardsView({ transactions }: TransactionsCardsViewPro
                                                     className="text-xs text-content-muted"
                                                     leftIcon={<Clock className="size-4" />}
                                                 >
-                                                    {formatations.time(transaction.created_at)}
+                                                    {formatations.time(transaction.transaction_date)}
                                                 </Badge>
                                             </div>
                                         </div>

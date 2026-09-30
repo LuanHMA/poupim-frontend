@@ -6,6 +6,7 @@ import { invalidateCreatedTransactionQueries } from "../query-keys";
 import { createTransactionSchema, type CreateTransactionSchemaType } from "../schemas/create-transaction-schema";
 import { TransactionsService } from "../transactions.service";
 import type { Transaction } from "../types/transactions";
+import { buildTransactionDate, toDateInputValue } from "../utils/transaction-date";
 
 interface UseUpdateTransactionProps {
     transaction: Transaction;
@@ -26,9 +27,7 @@ export function useUpdateTransaction({ transaction, onCloseDrawer, onSaved }: Us
             amount: transaction.amount,
             description: transaction.description,
             categoryId: transaction.category.id,
-            date: new Date(transaction.created_at).toLocaleDateString("en-CA", {
-                timeZone: "America/Sao_Paulo",
-            }),
+            date: toDateInputValue(transaction.transaction_date),
             status: transaction.status !== "PENDING",
             ignore: transaction.ignore,
             fixed: transaction.fixed,
@@ -47,6 +46,7 @@ export function useUpdateTransaction({ transaction, onCloseDrawer, onSaved }: Us
                 status,
                 type: transaction.type,
                 category_id: data.categoryId,
+                date: buildTransactionDate(data.date, new Date(transaction.transaction_date)),
             });
 
             const [yearFromDate, monthFromDate] = data.date.split("-").map(Number);

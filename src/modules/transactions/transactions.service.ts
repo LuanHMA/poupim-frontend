@@ -25,6 +25,7 @@ export class TransactionsService {
                 search: params.search,
             }
         });
+        
     }
 
     static async createTransaction(data: CreateTransactionInput) {
