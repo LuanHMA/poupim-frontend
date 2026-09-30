@@ -1,7 +1,7 @@
 import { Button } from "@/shared/components/ui";
 import { cn } from "@/shared/utils/cn";
 import { ArrowDownLeft, ArrowUpRight, PlusIcon, XIcon } from "lucide-react";
-import { useTransactionDrawer } from "../hooks/use-transaction-drawer";
+import { useTransactionDrawer } from "../../hooks/use-transaction-drawer";
 import { NewTransactionForm } from "./new-transaction-form";
 
 export function NewTransactionDrawer() {
@@ -18,6 +18,15 @@ export function NewTransactionDrawer() {
 
     return (
         <>
+            {/* Botão para abrir as opções de transação */}
+            <div className="fixed bottom-28 right-4 z-998 flex flex-col gap-4 sm:bottom-10">
+                <Button className="w-14 h-14 rounded-xl group" onClick={toggleTransactionOptions}>
+                    <PlusIcon className={`${isOpenTransactionOptions && 'group-hover:rotate-135'} transition-all duration-800`} />
+                </Button>
+            </div>
+
+
+            {/* Overlay para fechar as opções de transação */}
             {isOpenTransactionOptions && (
                 <button
                     type="button"
@@ -27,6 +36,7 @@ export function NewTransactionDrawer() {
                 />
             )}
 
+            {/* Opções de transação */}
             <div
                 className={cn(
                     "fixed right-4 bottom-48 md:bottom-28 z-998 flex flex-col items-start gap-2 rounded-xl bg-background-elevated p-2 transition-all duration-300",
@@ -53,11 +63,7 @@ export function NewTransactionDrawer() {
                 </Button>
             </div>
 
-            <div className="fixed bottom-28 right-4 z-998 flex flex-col gap-4 sm:bottom-10">
-                <Button className="w-14 h-14 rounded-xl group" onClick={toggleTransactionOptions}>
-                    <PlusIcon className={`${isOpenTransactionOptions && 'group-hover:rotate-135'} transition-all duration-800`} />
-                </Button>
-            </div>
+            {/* Painel de nova transação */}
             {isMounted && (
                 <>
                     <button
@@ -107,7 +113,6 @@ export function NewTransactionDrawer() {
                     </section>
                 </>
             )}
-
         </>
     )
 }

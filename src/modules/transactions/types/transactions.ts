@@ -6,6 +6,7 @@ export type Transaction = {
     id: number
     amount: number
     category: {
+        id: number
         name: string
         color: string
         icon: string
@@ -17,6 +18,7 @@ export type Transaction = {
     observation: string | null
     status: TransactionStatus
     type: TransactionType
+    fixed: boolean
     year: number
 }
 
@@ -62,4 +64,11 @@ export type CreateTransactionInput = {
 
 export type CreateTransactionOutput = {
     transaction: Transaction
+}
+
+export type UpdateTransactionInput = CreateTransactionInput
+
+export type UpdateTransactionOutput = {
+    message: string
+    success: boolean
 }

@@ -40,7 +40,7 @@ export function Balance({ currentMonth, currentYear, visualEffects = true }: Bal
                         Saldo
                     </h2>
                     <p className=" text-content-primary font-bold text-4xl">
-                        {formatations.toBRL(balance.cashFlow.balance ?? 0)}
+                        {formatations.currency(balance.cashFlow.balance ?? 0)}
                     </p>
 
                 </div>
@@ -52,7 +52,7 @@ export function Balance({ currentMonth, currentYear, visualEffects = true }: Bal
                             Receitas
                         </p>
                         <p className="text-base font-medium text-content-primary">
-                            {formatations.toBRL(balance.cashFlow.total_income ?? 0)}
+                            {formatations.currency(balance.cashFlow.total_income ?? 0)}
                         </p>
                     </div>
 
@@ -64,7 +64,7 @@ export function Balance({ currentMonth, currentYear, visualEffects = true }: Bal
                             Despesas
                         </p>
                         <p className="text-base font-medium text-content-primary">
-                            {formatations.toBRL(balance.cashFlow.total_expense ?? 0)}
+                            {formatations.currency(balance.cashFlow.total_expense ?? 0)}
                         </p>
                     </div>
                 </div>
@@ -79,7 +79,7 @@ export function Balance({ currentMonth, currentYear, visualEffects = true }: Bal
                     <div className="relative z-1 flex flex-col gap-2">
                         <h2 className="text-sm font-medium text-content-muted">Saldo</h2>
                         <p className="text-4xl font-bold text-content-primary">
-                            {formatations.toBRL(balance.cashFlow.balance ?? 0)}
+                            {formatations.currency(balance.cashFlow.balance ?? 0)}
                         </p>
                     </div>
                 </div>
@@ -90,7 +90,7 @@ export function Balance({ currentMonth, currentYear, visualEffects = true }: Bal
                         Entradas
                     </p>
                     <p className="text-2xl font-semibold text-content-primary">
-                        {formatations.toBRL(balance.cashFlow.total_income ?? 0)}
+                        {formatations.currency(balance.cashFlow.total_income ?? 0)}
                     </p>
                 </div>
 
@@ -100,7 +100,7 @@ export function Balance({ currentMonth, currentYear, visualEffects = true }: Bal
                         Saídas
                     </p>
                     <p className="text-2xl font-semibold text-content-primary">
-                        {formatations.toBRL(balance.cashFlow.total_expense ?? 0)}
+                        {formatations.currency(balance.cashFlow.total_expense ?? 0)}
                     </p>
                 </div>
             </section>

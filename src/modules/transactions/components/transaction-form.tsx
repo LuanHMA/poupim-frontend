@@ -1,36 +1,40 @@
-import { CategoryInput } from "@/modules/categories/components/category-input";
+import { CategoryInput, type CategorySelection } from "@/modules/categories/components/category-input";
 import { Button, Input, Switch } from "@/shared/components/ui";
 import { cn } from "@/shared/utils/cn";
 import { CalendarIcon, ChevronDown, PencilIcon } from "lucide-react";
-import { useState } from "react";
-import { useCreateTransaction } from "../hooks/use-create-transaction";
+import { useState, type FormEventHandler } from "react";
+import type { Control } from "react-hook-form";
+import type { CreateTransactionSchemaType } from "../schemas/create-transaction-schema";
 import type { TransactionType } from "../types/transactions";
-import { AmountInput } from "./amount-input";
-
-interface NewTransactionFormProps {
-    transactionType: TransactionType | null;
-    onCloseDrawer: () => void;
+import { AmountInput } from "./amount/amount-input";
+interface TransactionFormProps {
+    transactionType: TransactionType;
+    control: Control<CreateTransactionSchemaType>;
+    isSubmitting: boolean;
+    onSubmit: FormEventHandler<HTMLFormElement>;
+    submitLabel: string;
+    autoFocusAmount?: boolean;
+    category?: CategorySelection | null;
 }
 
-export function NewTransactionForm({ transactionType, onCloseDrawer }: NewTransactionFormProps) {
+export function TransactionForm({
+    transactionType,
+    control,
+    isSubmitting,
+    onSubmit,
+    submitLabel,
+    autoFocusAmount = false,
+    category = null,
+}: TransactionFormProps) {
     const [showDetails, setShowDetails] = useState(false);
-
-    if (!transactionType) return null;
-
-    const {
-        control,
-        isSubmitting,
-        handleCreateTransaction
-    } = useCreateTransaction({ transactionType, onCloseDrawer })
-
 
     return (
         <form
             className="flex min-h-0 flex-1 flex-col"
-            onSubmit={handleCreateTransaction}
+            onSubmit={onSubmit}
         >
-            <div className="drawer-scroll mt-6 mr-3 min-h-0 flex-1 space-y-5 overflow-y-auto overscroll-y-contain pt-4 pr-4 pb-6 pl-6">
-                <AmountInput control={control} name="amount" autoFocus />
+            <div className="drawer-scroll mt-4 mr-3 min-h-0 flex-1 space-y-5 overflow-y-auto overscroll-y-contain pt-4 pr-4 pb-6 pl-6">
+                <AmountInput control={control} name="amount" autoFocus={autoFocusAmount} />
 
                 <Input
                     placeholder="Ex: Almoço no restaurante"
@@ -40,7 +44,7 @@ export function NewTransactionForm({ transactionType, onCloseDrawer }: NewTransa
                     name="description"
                 />
 
-                <CategoryInput control={control} name="categoryId" />
+                <CategoryInput control={control} name="categoryId" category={category} />
 
                 <Input
                     type="date"
@@ -49,8 +53,6 @@ export function NewTransactionForm({ transactionType, onCloseDrawer }: NewTransa
                     control={control}
                     name="date"
                 />
-
-
 
                 <div className="flex items-center gap-2 justify-between border border-brd-subtle rounded-2xl p-4 bg-background-surface">
                     <div className="flex flex-col items-start text-sm">
@@ -79,7 +81,12 @@ export function NewTransactionForm({ transactionType, onCloseDrawer }: NewTransa
                 </div>
 
                 <div className={`space-y-5 overflow-hidden ${showDetails ? "max-h-80" : "max-h-0"} transition-all duration-300`}>
-                    <Input placeholder="Ex: Foi pago no cartão de crédito da minha mãe" label="Observação (opcional)" />
+                    <Input
+                        placeholder="Ex: Foi pago no cartão de crédito da minha mãe"
+                        label="Observação (opcional)"
+                        control={control}
+                        name="observation"
+                    />
 
                     <div className="flex items-center gap-2 justify-between border border-brd-subtle rounded-2xl p-4 bg-background-surface">
                         <div className="flex flex-col items-start text-sm">
@@ -99,8 +106,8 @@ export function NewTransactionForm({ transactionType, onCloseDrawer }: NewTransa
                 </div>
             </div>
 
-            <div className="flex shrink-0 justify-end border-t border-brd-default bg-background-elevated px-6 py-4">
-                <Button type="submit" isLoading={isSubmitting}>Registrar Transação</Button>
+            <div className="flex shrink-0 justify-end border-t border-brd-default bg-background-surface px-6 py-4">
+                <Button type="submit" isLoading={isSubmitting}>{submitLabel}</Button>
             </div>
         </form>
     );

@@ -51,13 +51,13 @@ export function RecentTransactions({ currentMonth, currentYear }: { currentMonth
                                 </span>
                                 <div className="flex flex-col items-start gap-1">
                                     <p className="text-sm font-medium text-content-primary">{description}</p>
-                                    <p className="text-xs text-content-muted">{formatations.toDDMMHHMM(created_at)}</p>
+                                    <p className="text-xs text-content-muted">{formatations.dateTimeLong(created_at)}</p>
                                 </div>
                             </div>
 
                             <div className="flex flex-col items-end gap-1">
                                 <p className={`text-sm font-medium ${statusStyles[status].color}`}>
-                                    {formatations.toBRL(amount)}
+                                    {formatations.currency(amount)}
                                 </p>
                                 <p className="text-xs text-content-muted">{statusStyles[status].label}</p>
                             </div>

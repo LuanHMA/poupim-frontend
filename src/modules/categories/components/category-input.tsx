@@ -1,5 +1,4 @@
 import { CategoriesService } from "@/modules/categories/categories.service";
-import type { Category } from "@/modules/categories/types/categories";
 import { useIsMobile } from "@/shared/hooks/use-is-mobile";
 import type { FormFieldControlProps } from "@/shared/types/ui";
 import { cn } from "@/shared/utils/cn";
@@ -9,8 +8,13 @@ import { Check, ChevronDown, Tag } from "lucide-react";
 import { Label, Select as SelectPrimitive } from "radix-ui";
 import { useId, useState, type FocusEventHandler, type Ref } from "react";
 import { Controller, type FieldValues } from "react-hook-form";
-import { CategoryIcon } from "./category-icon";
+import { CategoryIcon, type CategoryIconSource } from "./category-icon";
 import { CategoryPickerDrawer } from "./category-picker-drawer";
+
+export type CategorySelection = CategoryIconSource & {
+    id: number
+    name: string
+}
 
 export type CategoryInputBaseProps = {
     id?: string;
@@ -19,6 +23,7 @@ export type CategoryInputBaseProps = {
     placeholder?: string;
     error?: string;
     value?: number | null;
+    category?: CategorySelection | null;
     onValueChange?: (value: number) => void;
     onBlur?: FocusEventHandler<HTMLButtonElement>;
     disabled?: boolean;
@@ -30,14 +35,14 @@ export type CategoryInputProps<TFieldValues extends FieldValues = FieldValues> =
     | (CategoryInputBaseProps & FormFieldControlProps<TFieldValues>)
     | CategoryInputBaseProps;
 
-function CategoryOption({ category }: { category: Category }) {
+function CategoryOption({ category }: { category: CategorySelection }) {
     return (
         <span className="flex min-w-0 items-center gap-2">
             <span
                 className="grid size-8 shrink-0 place-items-center rounded-full"
                 style={{ backgroundColor: `${category.color}33` }}
             >
-                <CategoryIcon name={category.icon} color={category.color} className="size-4" />
+                <CategoryIcon category={category} className="size-4" />
             </span>
             <span className="truncate">{category.name}</span>
         </span>
@@ -51,6 +56,7 @@ function CategoryInputControl({
     placeholder = "Categoria",
     error,
     value = null,
+    category = null,
     onValueChange,
     onBlur,
     disabled,
@@ -72,7 +78,9 @@ function CategoryInputControl({
 
     const categories = data?.categories ?? [];
 
-    const selected = categories.find((category) => category.id === value) ?? null;
+    const selectedFromList = categories.find((item) => item.id === value) ?? null;
+    const selectedFromProps = category && category.id === value ? category : null;
+    const selected = selectedFromList ?? selectedFromProps;
 
     const placeholderText = isLoading
         ? "Carregando categorias..."
@@ -108,7 +116,7 @@ function CategoryInputControl({
                 >
                     <span className="inline-flex size-4 shrink-0 items-center justify-center [&_svg]:size-full">
                         {selected ? (
-                            <CategoryIcon name={selected.icon} color={selected.color} className="size-full" />
+                            <CategoryIcon category={selected} className="size-full" />
                         ) : (
                             <Tag className="size-full text-content-muted" aria-hidden />
                         )}
@@ -120,7 +128,7 @@ function CategoryInputControl({
             ) : (
                 <SelectPrimitive.Root
                     name={name}
-                    value={selected ? String(selected.id) : undefined}
+                    value={selectedFromList ? String(selectedFromList.id) : undefined}
                     onValueChange={(next) => onValueChange?.(Number(next))}
                     disabled={disabled || isLoading || isError || categories.length === 0}
                     required={required}

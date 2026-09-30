@@ -79,7 +79,7 @@ export function CategoryPickerDrawer({
                                             className="grid size-12 place-items-center rounded-full"
                                             style={{ backgroundColor: `${category.color}33` }}
                                         >
-                                            <CategoryIcon name={category.icon} color={category.color} className="size-6" />
+                                            <CategoryIcon category={category} className="size-6" />
                                         </span>
                                         <span className="w-full truncate text-center text-xs text-content-primary">
                                             {category.name}

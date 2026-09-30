@@ -1,5 +1,5 @@
 import { api } from "@/shared/api";
-import type { CreateTransactionInput, CreateTransactionOutput, GetTransactionsInput, GetTransactionsOutput } from "./types/transactions";
+import type { CreateTransactionInput, CreateTransactionOutput, GetTransactionsInput, GetTransactionsOutput, UpdateTransactionInput, UpdateTransactionOutput } from "./types/transactions";
 
 export class TransactionsService {
     static async getRecentTransactions(params: GetTransactionsInput) {
@@ -23,5 +23,13 @@ export class TransactionsService {
 
     static async createTransaction(data: CreateTransactionInput) {
         return api.post<CreateTransactionOutput>("/transactions", data);
+    }
+
+    static async updateTransaction(id: string, data: UpdateTransactionInput) {
+        return api.put<UpdateTransactionOutput>(`/transactions/${id}`, data);
+    }
+
+    static async deleteTransaction(id: string) {
+        return api.delete<void>(`/transactions/${id}`);
     }
 }

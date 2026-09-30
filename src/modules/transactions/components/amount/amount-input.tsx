@@ -3,7 +3,7 @@ import type { FormFieldControlProps } from "@/shared/types/ui";
 import { cn } from "@/shared/utils/cn";
 import { useEffect, useId, useRef, useState, type ClipboardEvent, type FocusEventHandler, type KeyboardEvent, type Ref } from "react";
 import { Controller, type FieldValues } from "react-hook-form";
-import { amountToDigits, appendAmountDigits, digitsToAmount, formatAmountDigits, removeAmountDigit } from "../utils/currency-amount";
+import { amountToDigits, appendAmountDigits, digitsToAmount, formatAmountDigits, removeAmountDigit } from "../../utils/currency-amount";
 import { AmountKeyboard } from "./amount-keyboard";
 
 type AmountInputProps<TFieldValues extends FieldValues = FieldValues> = {

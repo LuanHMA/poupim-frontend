@@ -1,11 +1,27 @@
 export const formatations = {
-    toBRL: (value: number) => {
+    currency: (value: number) => {
         return new Intl.NumberFormat('pt-BR', {
             style: 'currency',
             currency: 'BRL'
         }).format(value)
     },
-    toDDMMHHMM: (date: string) => {
+    date: (date: string) => {
+        return new Date(date).toLocaleDateString('en-US', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        })
+    },
+    dateTime: (date: string) => {
+        return new Date(date).toLocaleDateString('pt-BR', {
+            day: '2-digit',
+            month: "2-digit",
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        })
+    },
+    dateTimeLong: (date: string) => {
         return new Date(date).toLocaleDateString('pt-BR', {
             day: '2-digit',
             month: "long",
@@ -13,13 +29,13 @@ export const formatations = {
             minute: '2-digit'
         })
     },
-    toDDMM: (date: string) => {
+    dayMonth: (date: string) => {
         return new Date(date).toLocaleDateString('pt-BR', {
             day: '2-digit',
             month: "long"
         })
     },
-    toHHMM: (date: string) => {
+    time: (date: string) => {
         return new Date(date).toLocaleTimeString('pt-BR', {
             hour: '2-digit',
             minute: '2-digit'

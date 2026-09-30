@@ -103,7 +103,7 @@ export function TopCategories({ currentMonth, currentYear }: { currentMonth: num
                                 {selected ? selected.category : "Total"}
                             </span>
                             <span className="text-base leading-tight font-semibold text-content-primary sm:text-lg">
-                                {formatations.toBRL(displayedAmount)}
+                                {formatations.currency(displayedAmount)}
                             </span>
                         </button>
                     </div>

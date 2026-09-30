@@ -1,4 +1,4 @@
-import { NewTransactionDrawer } from "@/modules/transactions/components/new-transaction-drawer";
+import { NewTransactionDrawer } from "@/modules/transactions/components/new-transaction/new-transaction-drawer";
 import { BottomNavigation } from "@/shared/components/layout/bottom-navigation";
 import { Sidebar } from "@/shared/components/layout/sidebar";
 import { Outlet } from "react-router-dom";
