@@ -1,9 +1,10 @@
+import { CategoryIcon } from "@/modules/categories/components/category-icon";
 import { transactionQueryKeys } from "@/modules/transactions/query-keys";
 import { TransactionsService } from "@/modules/transactions/transactions.service";
 import type { GetTransactionsOutput } from "@/modules/transactions/types/transactions";
+import { transactionStatusStyles } from "@/modules/transactions/utils/custom-styles";
 import { formatations } from "@/shared/utils/formatations";
 import { useQuery } from "@tanstack/react-query";
-import { ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export function RecentTransactions({ currentMonth, currentYear }: { currentMonth: number, currentYear: number }) {
@@ -18,21 +19,6 @@ export function RecentTransactions({ currentMonth, currentYear }: { currentMonth
     if (isLoading) return <div>Carregando...</div>
     if (isError) return <div>Erro ao carregar as transações</div>
 
-    const statusStyles = {
-        PENDING: {
-            color: "text-content-primary",
-            label: "Pendente",
-        },
-        PAID: {
-            color: "text-content-success",
-            label: "Pago",
-        },
-        RECEIVED: {
-            color: "text-content-success",
-            label: "Recebido",
-        },
-    }
-
     return (
         <section className="flex flex-col items-start gap-8 bg-background-surface p-4 rounded-xl">
             <div className="flex items-center gap-4 justify-between w-full">
@@ -42,12 +28,12 @@ export function RecentTransactions({ currentMonth, currentYear }: { currentMonth
                 </Link>
             </div>
             <div className="flex flex-col gap-4 w-full">
-                {data?.transactions.map(({ id, amount, description, status, created_at }) => {
+                {data?.transactions.map(({ id, amount, description, status, type, category, created_at }) => {
                     return (
                         <div className="flex items-center gap-4 justify-between w-full last:border-none last:pb-0 border-b border-brd-subtle pb-4" key={id}>
                             <div className="flex items-center gap-4">
                                 <span className="flex items-center justify-center size-10 rounded-md bg-background-elevated">
-                                    <ShoppingBag className="size-5 text-content-primary" />
+                                    <CategoryIcon category={category} className="size-5" />
                                 </span>
                                 <div className="flex flex-col items-start gap-1">
                                     <p className="text-sm font-medium text-content-primary">{description}</p>
@@ -56,10 +42,11 @@ export function RecentTransactions({ currentMonth, currentYear }: { currentMonth
                             </div>
 
                             <div className="flex flex-col items-end gap-1">
-                                <p className={`text-sm font-medium ${statusStyles[status].color}`}>
+                                <p className={`text-sm font-medium tracking-wide ${type === "INCOME" && status !== "PENDING" ? "text-content-success" : type === "EXPENSE" && status !== "PENDING" ? "text-content-danger" : "text-content-primary"}`}>
+                                    {type === "INCOME" && status !== "PENDING" ? "+" : type === "EXPENSE" && status !== "PENDING" ? "-" : ""}
                                     {formatations.currency(amount)}
                                 </p>
-                                <p className="text-xs text-content-muted">{statusStyles[status].label}</p>
+                                <p className="text-xs text-content-muted">{transactionStatusStyles[status].label}</p>
                             </div>
                         </div>
                     )

@@ -32,10 +32,18 @@ export type TransactionFilters = {
 export type GetTransactionsInput = {
     month: number
     year: number
+    page?: number
+    limit?: number
 } & TransactionFilters
 
 export type GetTransactionsOutput = {
     transactions: Transaction[];
+    pagination: {
+        page: number
+        limit: number
+        total: number
+        total_pages: number
+    }
     message: string
     success: boolean
 }

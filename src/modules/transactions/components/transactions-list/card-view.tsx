@@ -36,20 +36,21 @@ export function TransactionsCardsView({ transactions }: TransactionsCardsViewPro
             )}
 
             {Array.from(transactionsByDay.entries()).map(([day, transactions]) => (
-                <div key={day} className="space-y-6 pb-6">
+                <div key={day} className="space-y-5 pb-6">
                     <h3 className="text-sm text-content-muted font-medium">{formatations.dayMonth(day)}</h3>
-                    <div className="flex flex-col gap-6">
+                    <div className="flex flex-col gap-4">
                         {transactions.map((transaction) => (
                             <button
                                 key={transaction.id}
                                 type="button"
-                                className="w-full text-left"
+                                className="w-full text-left cursor-pointer bg-background-surface hover:bg-background-elevated transition-colors duration-300 rounded-2xl p-4"
                                 aria-label="Abrir detalhes da transação"
                                 onClick={() => setSelectedTransaction(transaction)}
                             >
-                                <div className="flex items-center gap-4 justify-between w-full last:border-none last:pb-0 border-b border-brd-subtle pb-4">
+                                <div className="flex items-center gap-4 justify-between w-full last:border-none last:pb-0 border-b border-brd-subtle pb-4 group">
                                     <div className="flex items-center gap-4">
-                                        <span className="flex items-center justify-center size-10 rounded-md bg-background-elevated">
+                                        <span className="flex items-center justify-center size-10 rounded-md
+                                        d bg-background-elevated">
                                             <CategoryIcon category={transaction.category} className="size-5" />
                                         </span>
                                         <div className="flex flex-col items-start gap-1">

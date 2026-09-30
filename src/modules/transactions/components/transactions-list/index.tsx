@@ -1,32 +1,38 @@
-import { Button } from "@/shared/components/ui"
+import { Button, Pagination } from "@/shared/components/ui"
 import { useIsMobile } from "@/shared/hooks/use-is-mobile"
-import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { SearchX } from "lucide-react"
+import { useRef } from "react"
+import { useGetTransactions } from "../../hooks/use-get-transactions"
 import { useTransactionFilters } from "../../hooks/use-transaction-filters"
-import { transactionQueryKeys } from "../../query-keys"
-import { TransactionsService } from "../../transactions.service"
-import type { GetTransactionsOutput } from "../../types/transactions"
 import { TransactionsFilters } from "../transactions-filters"
 import { TransactionsCardsView } from "./card-view"
 import { TransactionsTableView } from "./table-view"
 
 interface TransactionsListProps {
     month: number
-    year: number    
+    year: number
 }
 
 export function TransactionsList({ month, year }: TransactionsListProps) {
     const { isMobile } = useIsMobile({ limitScreenWidth: 768 })
-    const { filters, clearFilters, hasFilters } = useTransactionFilters()
+    const { clearFilters, hasFilters } = useTransactionFilters()
+    const listRef = useRef<HTMLDivElement>(null)
 
-    const { data, isLoading, isError } = useQuery<GetTransactionsOutput>({
-        queryKey: transactionQueryKeys.listByPeriod(month, year, filters),
-        queryFn: () => TransactionsService.getTransactions({ month, year, ...filters }),
-        placeholderData: keepPreviousData,
-    })
+    const {
+        data,
+        isLoading,
+        isError,
+        isPlaceholderData,
+        pagination,
+    } = useGetTransactions({ month, year })
+
+    const handlePageChange = (nextPage: number) => {
+        pagination.goToPage(nextPage)
+        listRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+    }
 
     return (
-        <div className="space-y-6">
+        <div ref={listRef} className="scroll-mt-6 space-y-6">
             <TransactionsFilters />
 
             {isLoading ? (
@@ -46,10 +52,23 @@ export function TransactionsList({ month, year }: TransactionsListProps) {
                         Limpar filtros
                     </Button>
                 </div>
-            ) : isMobile ? (
-                <TransactionsCardsView transactions={data.transactions} />
             ) : (
-                <TransactionsTableView transactions={data.transactions} />
+                <>
+                    {isMobile ? (
+                        <TransactionsCardsView transactions={data.transactions} />
+                    ) : (
+                        <TransactionsTableView transactions={data.transactions} />
+                    )}
+
+                    <Pagination
+                        page={pagination.page}
+                        totalPages={pagination.totalPages}
+                        totalItems={pagination.totalItems}
+                        pageSize={pagination.pageSize}
+                        disabled={isPlaceholderData}
+                        onPageChange={handlePageChange}
+                    />
+                </>
             )}
         </div>
     )

@@ -17,6 +17,8 @@ export class TransactionsService {
             params: {
                 month: params.month,
                 year: params.year,
+                page: params.page ?? 1,
+                limit: params.limit ?? 20,
                 category_id: params.category_id,
                 status: params.status,
                 type: params.type,
