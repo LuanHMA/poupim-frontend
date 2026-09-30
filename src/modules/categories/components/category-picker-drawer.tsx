@@ -45,14 +45,14 @@ export function CategoryPickerDrawer({
                 onClick={onClose}
             />
 
-            <div className="absolute inset-x-0 bottom-0 rounded-t-3xl border-t border-brd-default bg-background-elevated px-6 pt-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
-                <div className="flex flex-col items-center gap-4">
+            <div className="absolute inset-x-0 bottom-0 flex max-h-dvh flex-col overflow-y-auto rounded-t-3xl border-t border-brd-default bg-background-elevated px-6 pt-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+                <div className="flex shrink-0 flex-col items-center gap-4">
                     <h2 className="text-center text-base font-semibold text-content-primary">Selecione uma categoria</h2>
 
                     <Input placeholder="Pesquisar categoria" value={search} onChange={(e) => setSearch(e.target.value)} />
                 </div>
 
-                <div className="drawer-scroll mt-5 h-[50dvh] overflow-y-auto">
+                <div className="drawer-scroll mt-5 h-[50dvh] min-h-24 overflow-y-auto overscroll-y-contain">
                     {isLoading ? (
                         <p className="py-8 text-center text-sm text-content-muted">Carregando categorias...</p>
                     ) : isError ? (
@@ -91,7 +91,7 @@ export function CategoryPickerDrawer({
                     )}
                 </div>
 
-                <div className="mt-6 flex justify-center">
+                <div className="mt-6 flex shrink-0 justify-center">
                     <button
                         type="button"
                         aria-label="Confirmar categoria"

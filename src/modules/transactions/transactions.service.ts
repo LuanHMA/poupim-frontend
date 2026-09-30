@@ -17,6 +17,10 @@ export class TransactionsService {
             params: {
                 month: params.month,
                 year: params.year,
+                category_id: params.category_id,
+                status: params.status,
+                type: params.type,
+                search: params.search,
             }
         });
     }

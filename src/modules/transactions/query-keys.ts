@@ -1,10 +1,11 @@
 import type { QueryClient } from "@tanstack/react-query";
+import type { TransactionFilters } from "./types/transactions";
 
 export const transactionQueryKeys = {
     recentByPeriod: (month: number, year: number) =>
         ["recent-transactions", month, year] as const,
-    listByPeriod: (month: number, year: number) =>
-        ["transactions", month, year] as const,
+    listByPeriod: (month: number, year: number, filters: TransactionFilters = {}) =>
+        ["transactions", month, year, filters] as const,
 }
 
 export const transactionRelatedQueryKeys = {

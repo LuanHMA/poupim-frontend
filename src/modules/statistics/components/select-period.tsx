@@ -3,7 +3,7 @@ import type { AvaiblePeriodsOutput } from "@/modules/statistics/types/statistics
 import { transactionRelatedQueryKeys } from "@/modules/transactions/query-keys";
 import { Select } from "@/shared/components/ui";
 import { useQuery } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 interface SelectPeriodProps {
     currentMonth: number
@@ -18,6 +18,7 @@ export function SelectPeriod({ currentMonth, currentYear, navigateTo }: SelectPe
     });
 
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
 
     if (isLoading) return <div>Carregando...</div>;
     if (isError) return <div>Erro ao carregar períodos</div>;
@@ -35,7 +36,10 @@ export function SelectPeriod({ currentMonth, currentYear, navigateTo }: SelectPe
 
     const onChangePeriod = (value: string) => {
         const [month, year] = value.split("/").map(Number);
-        navigate(`/${navigateTo}?month=${month}&year=${year}`);
+        const nextParams = new URLSearchParams(searchParams);
+        nextParams.set("month", String(month));
+        nextParams.set("year", String(year));
+        navigate(`/${navigateTo}?${nextParams.toString()}`);
     }
 
     return (

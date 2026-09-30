@@ -67,7 +67,7 @@ export function TransactionDetailsDrawer({ transaction, onClose }: TransactionDe
                     </h1>
                 </header>
 
-                <div className="flex flex-col flex-1 gap-6 p-6">
+                <div className="drawer-scroll flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto overscroll-y-contain p-6">
                     <section className="p-4 rounded-xl bg-background-surface flex flex-col items-start gap-1">
                         <h2 className="text-sm font-medium text-content-muted">Valor</h2>
                         <p className="text-2xl text-content-primary font-semibold tracking-wide">{formatations.currency(transaction.amount)}</p>

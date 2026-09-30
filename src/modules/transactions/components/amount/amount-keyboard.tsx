@@ -41,7 +41,7 @@ export function AmountKeyboard({ open, onDigit, onBackspace, onConfirm }: Amount
         <div
             data-amount-keyboard
             onPointerDown={keepInputFocus}
-            className="fixed inset-x-0 bottom-0 z-1100 rounded-t-4xl border-t border-brd-default bg-background-elevated px-6 pt-10 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-[0_-16px_40px_rgba(0,0,0,0.45)]"
+            className="drawer-scroll fixed inset-x-0 bottom-0 z-1100 max-h-dvh overflow-y-auto overscroll-y-contain rounded-t-4xl border-t border-brd-default bg-background-elevated px-6 pt-10 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-[0_-16px_40px_rgba(0,0,0,0.45)]"
         >
             <div className="grid grid-cols-3 place-items-center w-full max-w-[60%] mx-auto gap-8">
                 {DIGITS.map((digit) => (

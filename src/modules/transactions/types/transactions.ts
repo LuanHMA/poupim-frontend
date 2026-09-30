@@ -22,10 +22,17 @@ export type Transaction = {
     year: number
 }
 
+export type TransactionFilters = {
+    category_id?: number
+    status?: TransactionStatus
+    type?: TransactionType
+    search?: string
+}
+
 export type GetTransactionsInput = {
     month: number
     year: number
-}
+} & TransactionFilters
 
 export type GetTransactionsOutput = {
     transactions: Transaction[];
