@@ -1,7 +1,7 @@
 import { useIsMobile } from "@/shared/hooks/use-is-mobile";
 import { useLocalStorage } from "@/shared/hooks/use-local-storage";
 import { useEffect, useState } from "react";
-import { INSTALL_PROMPT_STORAGE_KEY } from "../constants/storage";
+import { INSTALL_PROMPT_SNOOZE_IN_MS, INSTALL_PROMPT_STORAGE_KEY } from "../constants/storage";
 import type { BeforeInstallPromptEvent } from "../types/pwa";
 import { isIosDevice, isStandaloneMode } from "../utils/platform";
 
@@ -9,7 +9,10 @@ const APPEARANCE_DELAY_IN_MS = 1500;
 
 export function useInstallAppPrompt() {
     const { isMobile } = useIsMobile({ limitScreenWidth: 768 });
-    const { value: wasDismissed, storeValue: setWasDismissed } = useLocalStorage(INSTALL_PROMPT_STORAGE_KEY, false);
+    const { value: dismissedAt, storeValue: setDismissedAt } = useLocalStorage<number | null>(
+        INSTALL_PROMPT_STORAGE_KEY,
+        null,
+    );
 
     const [isIos] = useState(() => isIosDevice());
     const [isInstalled, setIsInstalled] = useState(() => isStandaloneMode());
@@ -41,21 +44,24 @@ export function useInstallAppPrompt() {
     }, []);
 
     // No iOS não existe `beforeinstallprompt`, então o popup só pode ensinar o passo a passo.
-    const canPrompt = isMobile && !wasDismissed && !isInstalled && (isIos || Boolean(installEvent));
+    const canPrompt = isMobile && !isInstalled && (isIos || Boolean(installEvent));
+    const snoozedUntil = dismissedAt === null ? 0 : dismissedAt + INSTALL_PROMPT_SNOOZE_IN_MS;
 
     useEffect(() => {
-        if (!canPrompt) return;
+        if (!canPrompt || isMounted) return;
+
+        const delay = Math.max(snoozedUntil - Date.now(), APPEARANCE_DELAY_IN_MS);
 
         const timeout = setTimeout(() => {
             setIsMounted(true);
             requestAnimationFrame(() => setIsVisible(true));
-        }, APPEARANCE_DELAY_IN_MS);
+        }, delay);
 
         return () => clearTimeout(timeout);
-    }, [canPrompt]);
+    }, [canPrompt, isMounted, snoozedUntil]);
 
     const closePrompt = () => {
-        setWasDismissed(true);
+        setDismissedAt(Date.now());
         setIsVisible(false);
     };
 

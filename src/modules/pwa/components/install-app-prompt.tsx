@@ -1,3 +1,4 @@
+import { PoupimMark } from "@/shared/components/brand/poupim-logo";
 import { Button } from "@/shared/components/ui";
 import { cn } from "@/shared/utils/cn";
 import { Download, Share, SquarePlus, XIcon } from "lucide-react";
@@ -48,13 +49,13 @@ export function InstallAppPrompt() {
                     <XIcon className="text-content-muted" />
                 </Button>
 
-                <img src="/logo.svg" alt="" aria-hidden className="size-14 rounded-2xl" />
+                <PoupimMark className="size-14" />
 
                 <h2 id="install-app-title" className="mt-4 text-lg font-semibold text-content-primary">
                     Instale o app
                 </h2>
                 <p id="install-app-description" className="mt-2 text-sm text-content-muted">
-                    Adicione o Gerenciador de despesas à sua tela de início para uma experiência mais rápida, em tela
+                    Adicione o Poupim à sua tela de início para uma experiência mais rápida, em tela
                     cheia e com acesso offline.
                 </p>
 

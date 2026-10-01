@@ -14,8 +14,8 @@ export default defineConfig({
       includeAssets: ['favicon.ico', 'logo.svg', 'apple-touch-icon-180x180.png'],
       manifest: {
         id: '/',
-        name: 'Gerenciador de despesas',
-        short_name: 'Despesas',
+        name: 'Poupim',
+        short_name: 'Poupim',
         description: 'Controle suas receitas e despesas de forma simples e rápida.',
         lang: 'pt-BR',
         start_url: '/dashboard',
@@ -34,6 +34,8 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        cleanupOutdatedCaches: true,
+        clientsClaim: true,
         runtimeCaching: [
           {
             urlPattern: ({ url }) => url.origin === 'https://fonts.googleapis.com',

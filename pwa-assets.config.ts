@@ -8,13 +8,13 @@ export default defineConfig({
         ...minimal2023Preset,
         maskable: {
             sizes: [512],
-            padding: 0.3,
-            resizeOptions: { background: '#0A0A0C' },
+            padding: 0,
+            resizeOptions: { background: '#C8F047' },
         },
         apple: {
             sizes: [180],
-            padding: 0.3,
-            resizeOptions: { background: '#0A0A0C' },
+            padding: 0,
+            resizeOptions: { background: '#C8F047' },
         },
     },
     images: ['public/logo.svg'],

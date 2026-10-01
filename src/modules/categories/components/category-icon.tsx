@@ -1,6 +1,5 @@
-import { isCategoryIconName } from "@/modules/categories/constants/category-icons";
+import { CATEGORY_ICON_COMPONENTS, isCategoryIconName } from "@/modules/categories/constants/category-icons";
 import { Tag } from "lucide-react";
-import { DynamicIcon } from "lucide-react/dynamic";
 
 export type CategoryIconSource = {
     icon?: string | null
@@ -19,5 +18,7 @@ export function CategoryIcon({ category, className }: CategoryIconProps) {
         return <Tag className={className} color={category.color ?? undefined} aria-hidden />
     }
 
-    return <DynamicIcon name={category.icon} color={category.color ?? undefined} className={className} />
+    const Icon = CATEGORY_ICON_COMPONENTS[category.icon]
+
+    return <Icon className={className} color={category.color ?? undefined} aria-hidden />
 }

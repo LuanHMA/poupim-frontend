@@ -1,3 +1,10 @@
+import {
+    Baby, Banknote, BookOpen, Briefcase, Bus, Car, CircleDollarSign, Coffee, Dog, Droplets, Dumbbell, Film, Fuel,
+    Gamepad2, Gift, GraduationCap, HandCoins, HeartPulse, House, Landmark, Laptop, Music, PawPrint, PiggyBank, Pill,
+    Plane, Receipt, Shirt, ShoppingBag, Smartphone, Stethoscope, Tag, TrendingUp, Utensils, Wallet, Wifi, Zap,
+    type LucideIcon,
+} from "lucide-react";
+
 export const CATEGORY_ICONS = [
     { name: "baby", color: "#F472B6" },
     { name: "banknote", color: "#16A34A" },
@@ -39,6 +46,48 @@ export const CATEGORY_ICONS = [
 ] as const;
 
 export type CategoryIconName = (typeof CATEGORY_ICONS)[number]["name"];
+
+// Mapa estático para que o bundler inclua apenas estes ícones. Usar o `DynamicIcon`
+// do lucide gera um chunk por ícone da biblioteca inteira (~1800 arquivos).
+export const CATEGORY_ICON_COMPONENTS: Record<CategoryIconName, LucideIcon> = {
+    "baby": Baby,
+    "banknote": Banknote,
+    "book-open": BookOpen,
+    "briefcase": Briefcase,
+    "bus": Bus,
+    "car": Car,
+    "circle-dollar-sign": CircleDollarSign,
+    "coffee": Coffee,
+    "dog": Dog,
+    "droplets": Droplets,
+    "dumbbell": Dumbbell,
+    "film": Film,
+    "fuel": Fuel,
+    "gamepad-2": Gamepad2,
+    "gift": Gift,
+    "graduation-cap": GraduationCap,
+    "hand-coins": HandCoins,
+    "heart-pulse": HeartPulse,
+    "house": House,
+    "landmark": Landmark,
+    "laptop": Laptop,
+    "music": Music,
+    "paw-print": PawPrint,
+    "piggy-bank": PiggyBank,
+    "pill": Pill,
+    "plane": Plane,
+    "receipt": Receipt,
+    "shirt": Shirt,
+    "shopping-bag": ShoppingBag,
+    "smartphone": Smartphone,
+    "stethoscope": Stethoscope,
+    "tag": Tag,
+    "trending-up": TrendingUp,
+    "utensils": Utensils,
+    "wallet": Wallet,
+    "wifi": Wifi,
+    "zap": Zap,
+};
 
 export function isCategoryIconName(name: string): name is CategoryIconName {
     return CATEGORY_ICONS.some((icon) => icon.name === name);

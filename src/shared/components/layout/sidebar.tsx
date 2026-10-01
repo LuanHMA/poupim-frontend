@@ -1,8 +1,9 @@
 import { useSession } from "@/modules/auth/context/session-context";
+import { PoupimLogo } from "@/shared/components/brand/poupim-logo";
 import { Button } from "@/shared/components/ui";
 import { menuItems } from "@/shared/constants/menu-items";
 import { cn } from "@/shared/utils/cn";
-import { LogOutIcon, WalletIcon } from "lucide-react";
+import { LogOutIcon } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 export function Sidebar() {
@@ -13,15 +14,9 @@ export function Sidebar() {
 
     return (
         <aside className="hidden sm:flex fixed inset-y-0 left-0 z-40 w-64 flex-col border-r border-brd-default bg-background-elevated px-4 pt-6 pb-4">
-            <div className="mb-8 flex items-center gap-3 px-3">
-                <span className="grid size-10 place-items-center rounded-xl bg-background-accent text-content-inverse">
-                    <WalletIcon className="size-5" />
-                </span>
-                <div className="min-w-0">
-                    <p className="text-sm font-semibold text-content-primary">Despesas</p>
-                    <p className="text-xs text-content-muted">Gerenciador</p>
-                </div>
-            </div>
+            <Link to="/dashboard" className="mb-8 flex px-3">
+                <PoupimLogo />
+            </Link>
 
             <nav className="flex flex-1 flex-col gap-1">
                 {menuItems.map(({ Icon, href, label, value }) => {
