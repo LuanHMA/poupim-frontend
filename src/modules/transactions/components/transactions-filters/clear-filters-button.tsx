@@ -1,16 +1,9 @@
 import { Button } from "@/shared/components/ui";
-import { useTransactionFilters } from "../../hooks/use-transaction-filters";
 
-export function TransactionsClearFiltersButton() {
-    const { clearFilters, hasFilters } = useTransactionFilters();
-
-    if (!hasFilters) return null;
-
+export function TransactionsClearFiltersButton({ onClick, disabled }: { onClick: () => void; disabled?: boolean }) {
     return (
-        <div className="flex justify-end">
-            <Button type="button" variant="outline" size="md" onClick={clearFilters}>
-                Limpar filtros
-            </Button>
-        </div>
+        <Button type="button" variant="outline" size="md" className="flex-1" onClick={onClick} disabled={disabled}>
+            Limpar filtros
+        </Button>
     );
 }

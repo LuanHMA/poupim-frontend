@@ -1,6 +1,6 @@
-- botão para aplicar filtro 
+- botão para aplicar filtro
 - melhorar opção de categoria  
-- filtrar por mais de uma categoria 
+- filtrar por mais de uma categoria  [x]
 - aumentar contraste 
 
 - mostrar detalhes da transação nas ultimas transações [x]

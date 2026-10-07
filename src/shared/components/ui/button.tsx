@@ -6,18 +6,18 @@ import type { ComponentProps, ReactNode } from "react";
 
 const variantClassName: Record<ButtonVariant, string> = {
     primary:
-        "bg-btn-primary-bg text-btn-primary-content hover:bg-btn-primary-hover-bg active:bg-btn-primary-active-bg disabled:bg-btn-primary-disabled-bg disabled:text-btn-primary-disabled-content",
+        "bg-btn-primary-bg text-btn-primary-content hover:bg-btn-primary-hover-bg active:bg-btn-primary-active-bg disabled:cursor-not-allowed disabled:bg-btn-primary-disabled-bg disabled:text-btn-primary-disabled-content",
     secondary:
-        "bg-btn-secondary-bg text-btn-secondary-content hover:bg-btn-secondary-hover-bg active:bg-btn-secondary-active-bg disabled:bg-btn-secondary-disabled-bg disabled:text-btn-secondary-disabled-content",
+        "bg-btn-secondary-bg text-btn-secondary-content hover:bg-btn-secondary-hover-bg active:bg-btn-secondary-active-bg disabled:cursor-not-allowed disabled:bg-btn-secondary-disabled-bg disabled:text-btn-secondary-disabled-content",
     danger:
-        "bg-btn-danger-bg text-btn-danger-content hover:bg-btn-danger-hover-bg active:bg-btn-danger-active-bg disabled:bg-btn-danger-disabled-bg disabled:text-btn-danger-disabled-content",
+        "bg-btn-danger-bg text-btn-danger-content hover:bg-btn-danger-hover-bg active:bg-btn-danger-active-bg disabled:cursor-not-allowed disabled:bg-btn-danger-disabled-bg disabled:text-btn-danger-disabled-content",
     outline:
-        "bg-btn-outline-bg border border-btn-outline-border text-btn-outline-content hover:bg-btn-outline-hover-bg hover:text-btn-outline-hover-content active:bg-btn-outline-active-bg disabled:border-btn-outline-disabled-border disabled:text-btn-outline-disabled-content",
+        "bg-btn-outline-bg border border-btn-outline-border text-btn-outline-content hover:bg-btn-outline-hover-bg hover:text-btn-outline-hover-content active:bg-btn-outline-active-bg disabled:cursor-not-allowed disabled:border-btn-outline-disabled-border disabled:text-btn-outline-disabled-content",
     link: "bg-btn-link-bg h-auto px-0 text-btn-link-content hover:opacity-80 disabled:text-btn-link-disabled-content",
     success:
-        "bg-btn-success-bg text-btn-success-content hover:bg-btn-success-hover-bg active:bg-btn-success-active-bg disabled:bg-btn-success-disabled-bg disabled:text-btn-success-disabled-content",
+        "bg-btn-success-bg text-btn-success-content hover:bg-btn-success-hover-bg active:bg-btn-success-active-bg disabled:cursor-not-allowed disabled:bg-btn-success-disabled-bg disabled:text-btn-success-disabled-content",
     highlight:
-        "bg-linear-to-r from-btn-highlight-bg to-btn-highlight-to text-btn-highlight-content hover:from-btn-highlight-hover-bg hover:to-btn-highlight-hover-bg disabled:from-btn-highlight-disabled-bg disabled:to-btn-highlight-disabled-bg disabled:text-btn-primary-disabled-content",
+        "bg-linear-to-r from-btn-highlight-bg to-btn-highlight-to text-btn-highlight-content hover:from-btn-highlight-hover-bg hover:to-btn-highlight-hover-bg disabled:cursor-not-allowed disabled:from-btn-highlight-disabled-bg disabled:to-btn-highlight-disabled-bg disabled:text-btn-primary-disabled-content",
 };
 
 const sizeClassName: Record<ButtonSize, string> = {

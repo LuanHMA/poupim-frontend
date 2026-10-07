@@ -4,8 +4,13 @@ import { cn } from "@/shared/utils/cn";
 import { useQuery } from "@tanstack/react-query";
 import { useTransactionFilters } from "../../hooks/use-transaction-filters";
 
-export function TransactionsCategoryFilter() {
-    const { filters, setFilter } = useTransactionFilters();
+type TransactionsCategoryFilterProps = {
+    categoryIds?: number[];
+    onChange: (categoryIds: number[]) => void;
+};
+
+export function TransactionsCategoryFilter({ categoryIds = [], onChange }: TransactionsCategoryFilterProps) {
+    const { filters } = useTransactionFilters();
 
     const { data, isLoading, isError } = useQuery({
         queryKey: ["categories"],
@@ -30,8 +35,7 @@ export function TransactionsCategoryFilter() {
                 <div className="drawer-scroll max-h-92 overflow-y-auto bg-background-elevated rounded-xl p-6">
                     <div className="grid grid-cols-4 gap-3">
                         {categories.map((category) => {
-                            const selectedIds = filters.category_id ?? [];
-                            const isSelected = selectedIds.includes(category.id);
+                            const isSelected = categoryIds.includes(category.id);
 
                             return (
                                 <button
@@ -40,10 +44,10 @@ export function TransactionsCategoryFilter() {
                                     aria-pressed={isSelected}
                                     onClick={() => {
                                         const nextIds = isSelected
-                                            ? selectedIds.filter((id) => id !== category.id)
-                                            : [...selectedIds, category.id];
+                                            ? categoryIds.filter((id) => id !== category.id)
+                                            : [...categoryIds, category.id];
 
-                                        setFilter("category_id", nextIds);
+                                        onChange(nextIds);
                                     }}
                                     className={cn(
                                         "flex h-24.5 cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-transparent px-1 transition-all hover:bg-background-surface/50",

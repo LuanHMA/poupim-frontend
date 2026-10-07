@@ -57,6 +57,24 @@ export function useTransactionFilters() {
         }, { replace: true });
     }, [setSearchParams]);
 
+    const applyFilters = useCallback((nextFilters: Pick<TransactionFilters, "category_id" | "status" | "type">) => {
+        setSearchParams((current) => {
+            const next = new URLSearchParams(current);
+            const entries: [keyof typeof nextFilters, string | null][] = [
+                ["category_id", nextFilters.category_id?.length ? nextFilters.category_id.join(",") : null],
+                ["status", nextFilters.status ?? null],
+                ["type", nextFilters.type ?? null],
+            ];
+
+            for (const [key, value] of entries) {
+                if (!value) next.delete(key);
+                else next.set(key, value);
+            }
+
+            return next;
+        }, { replace: true });
+    }, [setSearchParams]);
+
     const clearFilters = useCallback(() => {
         setSearchParams((current) => {
             const next = new URLSearchParams(current);
@@ -75,5 +93,5 @@ export function useTransactionFilters() {
         filters.category_id?.length || filters.status || filters.type || filters.search,
     );
 
-    return { filters, setFilter, clearFilters, hasFilters };
+    return { filters, setFilter, applyFilters, clearFilters, hasFilters };
 }

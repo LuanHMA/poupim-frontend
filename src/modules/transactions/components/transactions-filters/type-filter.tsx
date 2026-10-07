@@ -1,6 +1,5 @@
 import { ArrowDownLeft, ArrowUpRight, Circle } from "lucide-react";
 import { ALL, SlidingTabs, type TabOption } from "../../../../shared/components/ui/sliding-tabs";
-import { useTransactionFilters } from "../../hooks/use-transaction-filters";
 import type { TransactionType } from "../../types/transactions";
 
 const typeOptions: TabOption<typeof ALL | TransactionType>[] = [
@@ -9,16 +8,19 @@ const typeOptions: TabOption<typeof ALL | TransactionType>[] = [
     { value: "EXPENSE", label: "Gasto", icon: ArrowUpRight },
 ];
 
-export function TransactionsTypeFilter() {
-    const { filters, setFilter } = useTransactionFilters();
+type TransactionsTypeFilterProps = {
+    type?: TransactionType;
+    onChange: (type: TransactionType | null) => void;
+};
 
+export function TransactionsTypeFilter({ type, onChange }: TransactionsTypeFilterProps) {
     return (
         <SlidingTabs
             bgColor="bg-background-elevated"
             label="Tipo"
-            value={filters.type ?? ALL}
+            value={type ?? ALL}
             options={typeOptions}
-            onChange={(value) => setFilter("type", value === ALL ? null : value)}
+            onChange={(value) => onChange(value === ALL ? null : value)}
         />
     );
 }

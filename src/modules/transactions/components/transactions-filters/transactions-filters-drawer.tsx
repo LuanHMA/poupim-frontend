@@ -3,14 +3,26 @@ import { useDragToDismiss } from "@/shared/hooks/use-drag-to-dismiss";
 import { useIsMobile } from "@/shared/hooks/use-is-mobile";
 import { cn } from "@/shared/utils/cn";
 import { XIcon } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { useTransactionFilters } from "../../hooks/use-transaction-filters";
+import type { TransactionFilters, TransactionStatus, TransactionType } from "../../types/transactions";
 import { TransactionsCategoryFilter } from "./category-filter";
 import { TransactionsClearFiltersButton } from "./clear-filters-button";
 import { TransactionsStatusFilter } from "./status-filter";
 import { TransactionsTypeFilter } from "./type-filter";
 
+type DrawerFilters = Pick<TransactionFilters, "category_id" | "status" | "type">;
+
+const toDrawerFilters = (filters: TransactionFilters): DrawerFilters => ({
+    ...(filters.category_id?.length ? { category_id: filters.category_id } : {}),
+    ...(filters.status ? { status: filters.status } : {}),
+    ...(filters.type ? { type: filters.type } : {}),
+});
+
 export function TransactionsFiltersDrawer({ onClose }: { onClose: () => void }) {
+    const { filters, applyFilters } = useTransactionFilters();
+    const [draft, setDraft] = useState<DrawerFilters>(() => toDrawerFilters(filters));
     const [isVisible, setIsVisible] = useState(false);
     const hasOpened = useRef(false);
     const { isMobile } = useIsMobile({ limitScreenWidth: 767 });
@@ -57,6 +69,30 @@ export function TransactionsFiltersDrawer({ onClose }: { onClose: () => void }) 
         window.addEventListener("keydown", onKeyDown);
         return () => window.removeEventListener("keydown", onKeyDown);
     }, []);
+
+    const setDraftFilter = useCallback(<K extends keyof DrawerFilters>(key: K, value: DrawerFilters[K] | null) => {
+        setDraft((current) => {
+            if (value == null || (Array.isArray(value) && value.length === 0)) {
+                const next = { ...current };
+                delete next[key];
+                return next;
+            }
+
+            return { ...current, [key]: value };
+        });
+    }, []);
+
+    const hasDraftFilters = Boolean(draft.category_id?.length || draft.status || draft.type);
+
+    const handleClearFilters = () => {
+        setDraft({});
+        applyFilters({});
+    };
+
+    const handleApplyFilters = () => {
+        applyFilters(draft);
+        setIsVisible(false);
+    };
 
     const handleTransitionEnd = (event: React.TransitionEvent<HTMLElement>) => {
         if (event.target !== event.currentTarget || isVisible) return;
@@ -118,10 +154,24 @@ export function TransactionsFiltersDrawer({ onClose }: { onClose: () => void }) 
                 </header>
 
                 <div className="space-y-6 px-6 pt-2 pb-[max(1.5rem,env(safe-area-inset-bottom))] md:drawer-scroll md:min-h-0 md:flex-1 md:overflow-y-auto">
-                    <TransactionsCategoryFilter />
-                    <TransactionsStatusFilter />
-                    <TransactionsTypeFilter />
-                    <TransactionsClearFiltersButton />
+                    <TransactionsCategoryFilter
+                        categoryIds={draft.category_id}
+                        onChange={(categoryIds) => setDraftFilter("category_id", categoryIds)}
+                    />
+                    <TransactionsStatusFilter
+                        status={draft.status}
+                        onChange={(status: TransactionStatus | null) => setDraftFilter("status", status)}
+                    />
+                    <TransactionsTypeFilter
+                        type={draft.type}
+                        onChange={(type: TransactionType | null) => setDraftFilter("type", type)}
+                    />
+                    <div className="flex gap-3">
+                        <TransactionsClearFiltersButton onClick={handleClearFilters} disabled={!hasDraftFilters} />
+                        <Button type="button" size="md" className="flex-1" onClick={handleApplyFilters}>
+                            Aplicar filtros
+                        </Button>
+                    </div>
                 </div>
             </aside>
         </div>,
