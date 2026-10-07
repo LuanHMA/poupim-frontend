@@ -16,7 +16,7 @@ export default defineConfig({
         id: '/',
         name: 'Poupim',
         short_name: 'Poupim',
-        description: 'Controle suas receitas e despesas de forma simples e rápida.',
+        description: 'Controle seus ganhos e gastos de forma simples e rápida.',
         lang: 'pt-BR',
         start_url: '/dashboard',
         scope: '/',

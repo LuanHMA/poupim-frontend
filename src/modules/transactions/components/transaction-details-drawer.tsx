@@ -95,7 +95,7 @@ export function TransactionDetailsDrawer({ transaction, onClose }: TransactionDe
                                 <ArrowDownLeft className="size-4 text-content-success" /> :
                                 <ArrowUpRight className="size-4 text-content-danger" />
                             }>
-                            {transaction.type === "INCOME" ? "Receita" : "Despesa"}
+                            {transaction.type === "INCOME" ? "Ganho" : "Gasto"}
                         </Badge>
                     </section>
 

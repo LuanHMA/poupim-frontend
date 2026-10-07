@@ -52,12 +52,12 @@ export function EditTransactionDrawer({ transaction, onClose, onSaved }: EditTra
                         {transaction.type === "INCOME" ? (
                             <>
                                 <ArrowDownLeft className="text-content-success" />
-                                Editar Receita
+                                Editar Ganho
                             </>
                         ) : (
                             <>
                                 <ArrowUpRight className="text-content-danger" />
-                                Editar Despesa
+                                Editar Gasto
                             </>
                         )}
                     </h1>

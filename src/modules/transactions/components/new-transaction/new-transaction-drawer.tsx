@@ -51,7 +51,7 @@ export function NewTransactionDrawer() {
                     leftIcon={<ArrowDownLeft className="text-content-success" />}
                     onClick={() => handleOpenDrawer("INCOME")}
                 >
-                    Receita
+                    Ganho
                 </Button>
                 <Button
                     variant="outline"
@@ -59,7 +59,7 @@ export function NewTransactionDrawer() {
                     leftIcon={<ArrowUpRight className="text-content-danger" />}
                     onClick={() => handleOpenDrawer("EXPENSE")}
                 >
-                    Despesa
+                    Gasto
                 </Button>
             </div>
 
@@ -98,12 +98,12 @@ export function NewTransactionDrawer() {
                                 {transactionType === "INCOME" ? (
                                     <>
                                         <ArrowDownLeft className="text-content-success" />
-                                        Nova Receita
+                                        Novo Ganho
                                     </>
                                 ) : (
                                     <>
                                         <ArrowUpRight className="text-content-danger" />
-                                        Nova Despesa
+                                        Novo Gasto
                                     </>
                                 )}
                             </h1>

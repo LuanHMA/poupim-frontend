@@ -37,7 +37,7 @@ export function Balance({ currentMonth, currentYear, visualEffects = true }: Bal
                 <div className="flex flex-col items-center gap-1 z-1">
                     <h2 className="text-sm text-content-muted font-medium flex items-center gap-2">
                         <Wallet2 className="size-4 text-content-primary" />
-                        Saldo
+                        Total disponível
                     </h2>
                     <p className=" text-content-primary font-bold text-4xl">
                         {formatations.currency(balance.cashFlow.balance ?? 0)}
@@ -49,7 +49,7 @@ export function Balance({ currentMonth, currentYear, visualEffects = true }: Bal
                     <div className="flex flex-col items-center gap-1">
                         <p className="text-sm text-content-muted flex items-center gap-1">
                             <ArrowDownLeft className="size-4 text-content-success" />
-                            Receitas
+                            Ganhos
                         </p>
                         <p className="text-base font-medium text-content-primary">
                             {formatations.currency(balance.cashFlow.total_income ?? 0)}
@@ -61,7 +61,7 @@ export function Balance({ currentMonth, currentYear, visualEffects = true }: Bal
                     <div className="flex flex-col items-center gap-1">
                         <p className="text-sm text-content-muted flex items-center gap-1">
                             <ArrowUpRight className="size-4 text-content-danger" />
-                            Despesas
+                            Gastos
                         </p>
                         <p className="text-base font-medium text-content-primary">
                             {formatations.currency(balance.cashFlow.total_expense ?? 0)}

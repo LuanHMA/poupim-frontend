@@ -5,8 +5,8 @@ import type { TransactionType } from "../../types/transactions";
 
 const typeOptions: TabOption<typeof ALL | TransactionType>[] = [
     { value: ALL, label: "Todos", icon: Circle },
-    { value: "INCOME", label: "Receita", icon: ArrowDownLeft },
-    { value: "EXPENSE", label: "Despesa", icon: ArrowUpRight },
+    { value: "INCOME", label: "Ganho", icon: ArrowDownLeft },
+    { value: "EXPENSE", label: "Gasto", icon: ArrowUpRight },
 ];
 
 export function TransactionsTypeFilter() {
