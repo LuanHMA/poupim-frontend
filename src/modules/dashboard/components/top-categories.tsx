@@ -58,9 +58,12 @@ export function TopCategories({ currentMonth, currentYear }: { currentMonth: num
         <section className="flex flex-col items-start gap-6 bg-background-surface p-4 rounded-xl">
             <div className="flex items-center justify-between w-full">
                 <h2 className="text-content-primary font-semibold text-lg">Onde você mais gastou</h2>
-                <Link to="/statistics" className="text-sm text-content-accent hover:text-content-accent-light transition-all duration-300">
-                    Mais detalhes
-                </Link>
+
+                {categories.length > 0 ? (
+                    <Link to="/statistics" className="text-sm text-content-accent hover:text-content-accent-light transition-all duration-300">
+                        Mais detalhes
+                    </Link>
+                ) : null}
             </div>
 
             {categories.length === 0 ? (
