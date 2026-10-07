@@ -39,9 +39,17 @@ export function SelectPeriod({ currentMonth, currentYear, navigateTo }: SelectPe
         );
     }
 
-    const periods = data?.periods.map(({ month, year }) => {
-        const monthName = new Date(year, month - 1).toLocaleString("pt-BR", { month: "long" });
+    const getInitialPeriod = () => {
+        const monthName = new Date(currentYear, currentMonth - 1).toLocaleString("pt-BR", { month: "long" });
 
+        return {
+            label: `${monthName}/${currentYear}`,
+            value: `${currentMonth}/${currentYear}`,
+        }
+    }
+
+    const periods = data?.periods.length === 0 ? [getInitialPeriod()] : data?.periods.map(({ month, year }) => {
+        const monthName = new Date(year, month - 1).toLocaleString("pt-BR", { month: "long" });
         return {
             label: `${monthName}/${year}`,
             value: `${month}/${year}`,
