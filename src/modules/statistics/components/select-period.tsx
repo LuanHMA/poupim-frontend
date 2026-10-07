@@ -1,7 +1,7 @@
 import { StatisticsService } from "@/modules/statistics/statistics.service";
 import type { AvaiblePeriodsOutput } from "@/modules/statistics/types/statistics";
 import { transactionRelatedQueryKeys } from "@/modules/transactions/query-keys";
-import { Select } from "@/shared/components/ui";
+import { Button, Select, Skeleton } from "@/shared/components/ui";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -12,7 +12,7 @@ interface SelectPeriodProps {
 }
 
 export function SelectPeriod({ currentMonth, currentYear, navigateTo }: SelectPeriodProps) {
-    const { data, isLoading, isError } = useQuery<AvaiblePeriodsOutput>({
+    const { data, isLoading, isError, refetch } = useQuery<AvaiblePeriodsOutput>({
         queryKey: transactionRelatedQueryKeys.availablePeriods,
         queryFn: StatisticsService.getAvailablePeriods,
     });
@@ -20,8 +20,24 @@ export function SelectPeriod({ currentMonth, currentYear, navigateTo }: SelectPe
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
 
-    if (isLoading) return <div>Carregando...</div>;
-    if (isError) return <div>Erro ao carregar períodos</div>;
+    if (isLoading) {
+        return (
+            <div className="w-36" role="status" aria-live="polite">
+                <span className="sr-only">Carregando período</span>
+                <Skeleton className="h-11 w-full rounded-xl sm:h-10" />
+            </div>
+        );
+    }
+    if (isError) {
+        return (
+            <div role="alert" className="flex flex-col items-end gap-1 text-right">
+                <p className="text-xs text-content-danger">Não foi possível carregar os períodos.</p>
+                <Button type="button" variant="link" size="sm" onClick={() => refetch()}>
+                    Tentar novamente
+                </Button>
+            </div>
+        );
+    }
 
     const periods = data?.periods.map(({ month, year }) => {
         const monthName = new Date(year, month - 1).toLocaleString("pt-BR", { month: "long" });

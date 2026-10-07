@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 export function useTopCategories(currentMonth: number, currentYear: number) {
     const chartRef = useRef<HTMLDivElement>(null)
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
-    const { data, isLoading, isError } = useQuery({
+    const { data, isLoading, isError, refetch } = useQuery({
         queryKey: transactionRelatedQueryKeys.topCategoriesByPeriod(currentMonth, currentYear),
         queryFn: () => StatisticsService.getTopExpenseCategories({
             month: currentMonth,
@@ -41,6 +41,7 @@ export function useTopCategories(currentMonth: number, currentYear: number) {
         displayedAmount: selected ? selected.total_amount : total,
         isLoading,
         hasError: isError || Boolean(data && !data.success),
+        refetch,
         selectCategory: setSelectedIndex,
     }
 }

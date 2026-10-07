@@ -56,7 +56,7 @@ export function CategoryPickerDrawer({
                     {isLoading ? (
                         <p className="py-8 text-center text-sm text-content-muted">Carregando categorias...</p>
                     ) : isError ? (
-                        <p className="py-8 text-center text-sm text-content-danger">Erro ao carregar as categorias</p>
+                        <p className="py-8 text-center text-sm text-content-danger">Não foi possível carregar as categorias.</p>
                     ) : categories.length === 0 ? (
                         <p className="py-8 text-center text-sm text-content-muted">Nenhuma categoria disponível.</p>
                     ) : (

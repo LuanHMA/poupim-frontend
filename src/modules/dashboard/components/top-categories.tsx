@@ -1,6 +1,8 @@
 import { useTopCategories } from "@/modules/dashboard/hooks/use-top-categories";
+import { Button, Skeleton } from "@/shared/components/ui";
 import { cn } from "@/shared/utils/cn";
 import { formatations } from "@/shared/utils/formatations";
+import { CircleAlert } from "lucide-react";
 import { PieChart } from "react-minimal-pie-chart";
 import { Link } from "react-router-dom";
 import { segmentPaddingPieChart } from "../utils/charts";
@@ -26,23 +28,43 @@ export function TopCategories({ currentMonth, currentYear }: { currentMonth: num
         displayedAmount,
         isLoading,
         hasError,
+        refetch,
         selectCategory,
     } = useTopCategories(currentMonth, currentYear)
 
     if (isLoading) {
         return (
-            <section className="flex flex-col items-start gap-6">
-                <h2 className="text-content-primary font-semibold text-lg">Gastos por categoria</h2>
-                <div className="mx-auto size-52 animate-pulse rounded-full bg-background-elevated" />
+            <section className="flex flex-col items-start gap-6 rounded-xl bg-background-surface p-4" role="status" aria-live="polite">
+                <span className="sr-only">Carregando categorias</span>
+                <h2 className="text-lg font-semibold text-content-primary">Onde você mais gastou</h2>
+                <div className="flex w-full flex-col items-center gap-5">
+                    <Skeleton className="size-52 rounded-full md:size-64" />
+                    <div className="flex flex-wrap items-center justify-center gap-4">
+                        <Skeleton className="h-4 w-20" />
+                        <Skeleton className="h-4 w-24" />
+                        <Skeleton className="h-4 w-16" />
+                    </div>
+                </div>
             </section>
         )
     }
 
     if (hasError) {
         return (
-            <section className="flex flex-col items-start gap-6">
-                <h2 className="text-content-primary font-semibold text-lg">Gastos por categoria</h2>
-                <p className="text-sm text-content-danger">Erro ao carregar as categorias</p>
+            <section role="alert" className="flex flex-col items-start gap-4 rounded-xl bg-background-surface p-4">
+                <h2 className="text-lg font-semibold text-content-primary">Onde você mais gastou</h2>
+                <div className="flex w-full flex-col items-start gap-3">
+                    <div className="flex items-start gap-3">
+                        <CircleAlert className="mt-0.5 size-5 shrink-0 text-content-danger" />
+                        <div className="space-y-1">
+                            <p className="text-sm font-medium text-content-primary">Não foi possível carregar os gastos</p>
+                            <p className="text-sm text-content-muted">O resumo por categoria deste período não foi carregado.</p>
+                        </div>
+                    </div>
+                    <Button type="button" variant="link" size="sm" onClick={() => refetch()}>
+                        Tentar novamente
+                    </Button>
+                </div>
             </section>
         )
     }

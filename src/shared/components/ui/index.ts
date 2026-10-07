@@ -6,5 +6,6 @@ export { Button, type ButtonProps } from "./button";
 export { Input } from "./input";
 export { Pagination } from "./pagination";
 export { Select } from "./select";
+export { Skeleton } from "./skeleton";
 export { Switch } from "./switch";
 

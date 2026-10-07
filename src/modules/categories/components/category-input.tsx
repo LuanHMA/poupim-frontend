@@ -85,7 +85,7 @@ function CategoryInputControl({
     const placeholderText = isLoading
         ? "Carregando categorias..."
         : isError
-            ? "Erro ao carregar as categorias"
+            ? "Não foi possível carregar as categorias"
             : categories.length === 0
                 ? "Nenhuma categoria disponível"
                 : placeholder;

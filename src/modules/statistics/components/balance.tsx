@@ -1,8 +1,10 @@
+import { BalanceSkeleton } from "@/modules/statistics/components/balance-skeleton";
 import { StatisticsService } from "@/modules/statistics/statistics.service";
 import { transactionRelatedQueryKeys } from "@/modules/transactions/query-keys";
+import { Button } from "@/shared/components/ui";
 import { formatations } from "@/shared/utils/formatations";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowDownLeft, ArrowUpRight, Wallet2 } from "lucide-react";
+import { ArrowDownLeft, ArrowUpRight, CircleAlert, Wallet2 } from "lucide-react";
 
 interface BalanceProps {
     currentMonth: number;
@@ -11,7 +13,7 @@ interface BalanceProps {
 }
 
 export function Balance({ currentMonth, currentYear, visualEffects = true }: BalanceProps) {
-    const { data: balance, isLoading, isError } = useQuery({
+    const { data: balance, isLoading, isError, refetch } = useQuery({
         queryKey: transactionRelatedQueryKeys.cashFlowByPeriod(currentMonth, currentYear),
         queryFn: () => StatisticsService.getCashFlow({
             month: currentMonth,
@@ -20,11 +22,22 @@ export function Balance({ currentMonth, currentYear, visualEffects = true }: Bal
     });
 
     if (isError || (balance && !balance.success)) {
-        return <div>Erro ao carregar o saldo</div>
+        return (
+            <section role="alert" className="flex flex-col items-center gap-3 rounded-xl border border-dashed border-brd-default bg-background-surface px-6 py-10 text-center">
+                <CircleAlert className="size-8 text-content-danger" />
+                <div className="space-y-1">
+                    <p className="text-sm font-medium text-content-primary">Não foi possível carregar o saldo</p>
+                    <p className="text-sm text-content-muted">Os ganhos e gastos deste período não foram carregados.</p>
+                </div>
+                <Button type="button" variant="link" size="sm" onClick={() => refetch()}>
+                    Tentar novamente
+                </Button>
+            </section>
+        )
     }
 
     if (isLoading || !balance) {
-        return <div>Carregando...</div>
+        return <BalanceSkeleton />
     }
 
     return (

@@ -1,12 +1,13 @@
 import { Button, Pagination } from "@/shared/components/ui"
 import { useIsMobile } from "@/shared/hooks/use-is-mobile"
-import { SearchX } from "lucide-react"
+import { CircleAlert, SearchX } from "lucide-react"
 import { useRef } from "react"
 import { useGetTransactions } from "../../hooks/use-get-transactions"
 import { useTransactionFilters } from "../../hooks/use-transaction-filters"
 import { TransactionsFilters } from "../transactions-filters"
 import { TransactionsCardsView } from "./card-view"
 import { TransactionsTableView } from "./table-view"
+import { TransactionsListSkeleton } from "./transactions-list-skeleton"
 
 interface TransactionsListProps {
     month: number
@@ -23,6 +24,7 @@ export function TransactionsList({ month, year }: TransactionsListProps) {
         isLoading,
         isError,
         isPlaceholderData,
+        refetch,
         pagination,
     } = useGetTransactions({ month, year })
 
@@ -36,9 +38,20 @@ export function TransactionsList({ month, year }: TransactionsListProps) {
             <TransactionsFilters />
 
             {isLoading ? (
-                <p>Carregando...</p>
+                <TransactionsListSkeleton />
             ) : isError || !data?.transactions ? (
-                <p>Erro ao carregar transações</p>
+                <div role="alert" className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-brd-default bg-background-surface px-6 py-12 text-center">
+                    <CircleAlert className="size-8 text-content-danger" />
+                    <div className="space-y-1">
+                        <p className="text-sm font-medium text-content-primary">Não foi possível carregar as transações</p>
+                        <p className="text-sm text-content-muted">
+                            A lista deste período não foi carregada.
+                        </p>
+                    </div>
+                    <Button type="button" variant="link" size="sm" onClick={() => refetch()}>
+                        Tentar novamente
+                    </Button>
+                </div>
             ) : data.transactions.length === 0 ? (
                 <>
                     {hasFilters ? (
