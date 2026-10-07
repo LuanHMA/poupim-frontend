@@ -8,13 +8,25 @@ const transactionStatusSchema = z.enum(["PENDING", "PAID", "RECEIVED"]);
 const transactionTypeSchema = z.enum(["INCOME", "EXPENSE"]);
 const searchSchema = z.string().trim().min(1);
 
+const getCategoryIdsFromSearchParams = (searchParams: URLSearchParams) => {
+    const categoryIds = searchParams
+        .getAll("category_id")
+        .flatMap((value) => value.split(","))
+        .flatMap((value) => {
+            const parsed = categoryIdSchema.safeParse(value.trim());
+            return parsed.success ? [parsed.data] : [];
+        });
+
+    return [...new Set(categoryIds)];
+};
+
 export const getFiltersFromSearchParams = (searchParams: URLSearchParams): TransactionFilters => {
-    const categoryId = categoryIdSchema.safeParse(searchParams.get("category_id"));
+    const categoryIds = getCategoryIdsFromSearchParams(searchParams);
     const status = transactionStatusSchema.safeParse(searchParams.get("status"));
     const type = transactionTypeSchema.safeParse(searchParams.get("type"));
     const search = searchSchema.safeParse(searchParams.get("search"));
     return {
-        ...(categoryId.success && { category_id: categoryId.data }),
+        ...(categoryIds.length > 0 && { category_id: categoryIds }),
         ...(status.success && { status: status.data }),
         ...(type.success && { type: type.data }),
         ...(search.success && { search: search.data }),
@@ -33,10 +45,12 @@ export function useTransactionFilters() {
         setSearchParams((current) => {
             const next = new URLSearchParams(current);
 
-            if (value == null || value === "") {
+            const isEmpty = value == null || value === "" || (Array.isArray(value) && value.length === 0);
+
+            if (isEmpty) {
                 next.delete(key);
             } else {
-                next.set(key, String(value));
+                next.set(key, Array.isArray(value) ? value.join(",") : String(value));
             }
 
             return next;
@@ -58,7 +72,7 @@ export function useTransactionFilters() {
     }, [setSearchParams]);
 
     const hasFilters = Boolean(
-        filters.category_id || filters.status || filters.type || filters.search,
+        filters.category_id?.length || filters.status || filters.type || filters.search,
     );
 
     return { filters, setFilter, clearFilters, hasFilters };

@@ -1,6 +1,6 @@
 import { Button } from "@/shared/components/ui";
 import { cn } from "@/shared/utils/cn";
-import { ArrowDownLeft, ArrowUpRight, PlusIcon, XIcon } from "lucide-react";
+import { ArrowDownLeft, ArrowUpRight, ChevronLeft, PlusIcon } from "lucide-react";
 import { useTransactionDrawer } from "../../hooks/use-transaction-drawer";
 import { NewTransactionForm } from "./new-transaction-form";
 
@@ -90,8 +90,8 @@ export function NewTransactionDrawer() {
                         onTransitionEnd={handleTransitionEnd}
                     >
                         <header className="relative mt-6 flex h-10 shrink-0 items-center justify-center px-6">
-                            <Button size="icon" className="absolute right-6" onClick={closeDrawer} variant="outline">
-                                <XIcon className="text-content-danger" />
+                            <Button size="icon" className="absolute left-6" onClick={closeDrawer} variant="outline">
+                                <ChevronLeft className="text-content-priamary" />
                             </Button>
 
                             <h1 className="px-12 text-center text-xl font-bold text-content-primary flex items-center gap-2">

@@ -24,7 +24,7 @@ export type Transaction = {
 }
 
 export type TransactionFilters = {
-    category_id?: number
+    category_id?: number[]
     status?: TransactionStatus
     type?: TransactionType
     search?: string

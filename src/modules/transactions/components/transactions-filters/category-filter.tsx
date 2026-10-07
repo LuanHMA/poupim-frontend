@@ -30,7 +30,8 @@ export function TransactionsCategoryFilter() {
                 <div className="drawer-scroll max-h-92 overflow-y-auto bg-background-elevated rounded-xl p-6">
                     <div className="grid grid-cols-4 gap-3">
                         {categories.map((category) => {
-                            const isSelected = filters.category_id === category.id;
+                            const selectedIds = filters.category_id ?? [];
+                            const isSelected = selectedIds.includes(category.id);
 
                             return (
                                 <button
@@ -38,7 +39,11 @@ export function TransactionsCategoryFilter() {
                                     type="button"
                                     aria-pressed={isSelected}
                                     onClick={() => {
-                                        setFilter("category_id", isSelected ? null : category.id);
+                                        const nextIds = isSelected
+                                            ? selectedIds.filter((id) => id !== category.id)
+                                            : [...selectedIds, category.id];
+
+                                        setFilter("category_id", nextIds);
                                     }}
                                     className={cn(
                                         "flex h-24.5 cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-transparent px-1 transition-all hover:bg-background-surface/50",

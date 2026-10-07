@@ -19,7 +19,7 @@ export class TransactionsService {
                 year: params.year,
                 page: params.page ?? 1,
                 limit: params.limit ?? 20,
-                category_id: params.category_id,
+                category_id: params.category_id?.join(","),
                 status: params.status,
                 type: params.type,
                 search: params.search,

@@ -10,7 +10,7 @@ export function TransactionsFilters() {
     const { filters } = useTransactionFilters();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-    const hasAdvancedFilters = Boolean(filters.category_id || filters.status || filters.type);
+    const hasAdvancedFilters = Boolean(filters.category_id?.length || filters.status || filters.type);
 
     return (
         <div className="flex items-center gap-2">
