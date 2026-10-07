@@ -1,5 +1,6 @@
 import { CategoriesService } from "@/modules/categories/categories.service";
 import { CategoryIcon } from "@/modules/categories/components/category-icon";
+import { sortCategoriesByName } from "@/modules/categories/utils/sort-categories";
 import { cn } from "@/shared/utils/cn";
 import { useQuery } from "@tanstack/react-query";
 import { useTransactionFilters } from "../../hooks/use-transaction-filters";
@@ -17,7 +18,7 @@ export function TransactionsCategoryFilter({ categoryIds = [], onChange }: Trans
         queryFn: () => CategoriesService.getCategories(),
     });
 
-    const categories = (data?.categories ?? []).filter((category) =>
+    const categories = sortCategoriesByName(data?.categories ?? []).filter((category) =>
         category.name.toLowerCase().includes(filters.search?.trim().toLowerCase() ?? ""),
     );
 

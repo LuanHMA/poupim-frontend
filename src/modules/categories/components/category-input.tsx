@@ -8,6 +8,7 @@ import { Check, ChevronDown, Tag } from "lucide-react";
 import { Label, Select as SelectPrimitive } from "radix-ui";
 import { useId, useState, type FocusEventHandler, type Ref } from "react";
 import { Controller, type FieldValues } from "react-hook-form";
+import { sortCategoriesByName } from "../utils/sort-categories";
 import { CategoryIcon, type CategoryIconSource } from "./category-icon";
 import { CategoryPickerDrawer } from "./category-picker-drawer";
 
@@ -76,7 +77,7 @@ function CategoryInputControl({
 
     const { isMobile } = useIsMobile({});
 
-    const categories = data?.categories ?? [];
+    const categories = sortCategoriesByName(data?.categories ?? []);
 
     const selectedFromList = categories.find((item) => item.id === value) ?? null;
     const selectedFromProps = category && category.id === value ? category : null;
