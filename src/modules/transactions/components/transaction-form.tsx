@@ -30,10 +30,10 @@ export function TransactionForm({
 
     return (
         <form
-            className="flex min-h-0 flex-1 flex-col"
+            className="flex min-h-0 w-full min-w-0 flex-1 flex-col"
             onSubmit={onSubmit}
         >
-            <div className="drawer-scroll mt-4 mr-3 min-h-0 flex-1 space-y-5 overflow-y-auto overscroll-y-contain pt-4 pr-4 pb-6 pl-6">
+            <div className="drawer-scroll mt-4 mr-3 min-h-0 w-full min-w-0 flex-1 space-y-5 overflow-x-hidden overflow-y-auto overscroll-y-contain pt-4 pr-4 pb-6 pl-6">
                 <AmountInput control={control} name="amount" autoFocus={autoFocusAmount} />
 
                 <Input
