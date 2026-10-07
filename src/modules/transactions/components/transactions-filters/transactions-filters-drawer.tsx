@@ -1,4 +1,6 @@
 import { Button } from "@/shared/components/ui";
+import { useDragToDismiss } from "@/shared/hooks/use-drag-to-dismiss";
+import { useIsMobile } from "@/shared/hooks/use-is-mobile";
 import { cn } from "@/shared/utils/cn";
 import { XIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -11,6 +13,12 @@ import { TransactionsTypeFilter } from "./type-filter";
 export function TransactionsFiltersDrawer({ onClose }: { onClose: () => void }) {
     const [isVisible, setIsVisible] = useState(false);
     const hasOpened = useRef(false);
+    const { isMobile } = useIsMobile({ limitScreenWidth: 767 });
+    const { setSheetRef, dragStyle, dragHandleProps, onDragTransitionEnd } = useDragToDismiss({
+        axis: "y",
+        onDismiss: onClose,
+        active: isMobile,
+    });
 
     useEffect(() => {
         const frame = requestAnimationFrame(() => {
@@ -69,6 +77,7 @@ export function TransactionsFiltersDrawer({ onClose }: { onClose: () => void }) 
             />
 
             <aside
+                ref={setSheetRef}
                 role="dialog"
                 aria-modal="true"
                 aria-label="Filtros"
@@ -80,19 +89,32 @@ export function TransactionsFiltersDrawer({ onClose }: { onClose: () => void }) 
                         ? "translate-y-0 md:translate-x-0"
                         : "translate-y-full md:translate-y-0 md:translate-x-full",
                 )}
-                onTransitionEnd={handleTransitionEnd}
+                style={isMobile ? dragStyle : undefined}
+                onTransitionEnd={(event) => {
+                    onDragTransitionEnd(event);
+                    handleTransitionEnd(event);
+                }}
             >
-                <header className="sticky top-0 z-10 flex h-14 shrink-0 items-center justify-center bg-background-surface px-6 md:static">
-                    <h2 className="text-base font-semibold text-content-primary">Filtros</h2>
-                    <Button
-                        size="icon"
-                        variant="outline"
-                        className="absolute right-4"
-                        aria-label="Fechar"
-                        onClick={() => setIsVisible(false)}
-                    >
-                        <XIcon className="text-content-danger" />
-                    </Button>
+                <header
+                    className={cn(
+                        "sticky top-0 z-10 shrink-0 bg-background-surface md:static",
+                        isMobile && "cursor-grab touch-none active:cursor-grabbing",
+                    )}
+                    {...(isMobile ? dragHandleProps : {})}
+                >
+                    <span aria-hidden className="mx-auto mt-3 block h-1.5 w-12 rounded-full bg-brd-strong md:hidden" />
+                    <div className="relative flex h-14 items-center justify-center px-6">
+                        <h2 className="text-base font-semibold text-content-primary">Filtros</h2>
+                        <Button
+                            size="icon"
+                            variant="outline"
+                            className="absolute right-6"
+                            aria-label="Fechar"
+                            onClick={() => setIsVisible(false)}
+                        >
+                            <XIcon className="text-content-danger" />
+                        </Button>
+                    </div>
                 </header>
 
                 <div className="space-y-6 px-6 pt-2 pb-[max(1.5rem,env(safe-area-inset-bottom))] md:drawer-scroll md:min-h-0 md:flex-1 md:overflow-y-auto">

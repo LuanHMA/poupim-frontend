@@ -2,7 +2,7 @@ import { Badge } from "@/shared/components/ui"
 import { Button } from "@/shared/components/ui/button"
 import { cn } from "@/shared/utils/cn"
 import { formatations } from "@/shared/utils/formatations"
-import { ArrowDownLeft, ArrowUpRight, Calendar, CircleDashed, EyeOff, Pencil, Repeat, StickyNote, TextAlignStart, Trash, Wallet, XIcon } from "lucide-react"
+import { ArrowDownLeft, ArrowUpRight, Calendar, ChevronLeft, CircleDashed, EyeOff, Pencil, Repeat, StickyNote, TextAlignStart, Trash, Wallet } from "lucide-react"
 import { useEffect, useState } from "react"
 import type { Transaction } from "../types/transactions"
 import { DeleteTransactionDialog } from "./delete-transaction-dialog"
@@ -58,8 +58,8 @@ export function TransactionDetailsDrawer({ transaction, onClose }: TransactionDe
                 onTransitionEnd={handleTransitionEnd}
             >
                 <header className="relative mt-6 flex h-10 shrink-0 items-center justify-center px-6">
-                    <Button size="icon" className="absolute right-6" onClick={closeDrawer} variant="outline">
-                        <XIcon className="text-content-danger" />
+                    <Button size="icon" className="absolute left-6" onClick={closeDrawer} variant="outline">
+                        <ChevronLeft className="text-content-priamary" />
                     </Button>
 
                     <h1 className="px-12 text-center text-xl font-bold text-content-primary flex items-center gap-2">

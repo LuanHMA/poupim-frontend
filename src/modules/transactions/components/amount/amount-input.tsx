@@ -187,7 +187,8 @@ function AmountField({
         const next = event.relatedTarget;
         const pressedKey = next instanceof Element && next.closest("[data-amount-keyboard]");
         const pressedConfirm = next instanceof Element && next.closest("[data-amount-confirm]");
-        if (pressedKey && !pressedConfirm) return;
+        const pressedClose = next instanceof Element && next.closest("[data-amount-close]");
+        if (pressedKey && !pressedConfirm && !pressedClose) return;
 
         setIsFocused(false);
         onBlur?.(event);
@@ -271,6 +272,7 @@ function AmountField({
                 onDigit={(digit) => setAmount(appendAmountDigits(digits, digit))}
                 onBackspace={() => setAmount(removeAmountDigit(digits))}
                 onConfirm={() => inputRef.current?.blur()}
+                onClose={() => inputRef.current?.blur()}
             />
         </div>
     );

@@ -1,6 +1,7 @@
 import { Button } from "@/shared/components/ui";
+import { useDragToDismiss } from "@/shared/hooks/use-drag-to-dismiss";
 import { cn } from "@/shared/utils/cn";
-import { CheckIcon, Delete } from "lucide-react";
+import { CheckIcon, Delete, XIcon } from "lucide-react";
 import type { ComponentProps, PointerEvent, ReactNode } from "react";
 import { createPortal } from "react-dom";
 
@@ -11,6 +12,7 @@ type AmountKeyboardProps = {
     onDigit: (digit: string) => void;
     onBackspace: () => void;
     onConfirm: () => void;
+    onClose: () => void;
 };
 
 function keepInputFocus(event: PointerEvent<HTMLElement>) {
@@ -34,15 +36,48 @@ function Key({ className, children, ...props }: ComponentProps<"button"> & { chi
     );
 }
 
-export function AmountKeyboard({ open, onDigit, onBackspace, onConfirm }: AmountKeyboardProps) {
+export function AmountKeyboard({ open, onDigit, onBackspace, onConfirm, onClose }: AmountKeyboardProps) {
+    const { setSheetRef, dragStyle, dragHandleProps, onDragTransitionEnd } = useDragToDismiss({
+        axis: "y",
+        onDismiss: onClose,
+        active: open,
+    });
+
     if (!open) return null;
 
     return createPortal(
         <div
+            ref={setSheetRef}
             data-amount-keyboard
             onPointerDown={keepInputFocus}
-            className="drawer-scroll fixed inset-x-0 bottom-0 z-1100 max-h-dvh overflow-y-auto overscroll-y-contain rounded-t-4xl border-t border-brd-default bg-background-elevated px-6 pt-10 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-[0_-16px_40px_rgba(0,0,0,0.45)]"
+            onTransitionEnd={onDragTransitionEnd}
+            style={dragStyle}
+            className="drawer-scroll fixed inset-x-0 bottom-0 z-1100 max-h-dvh overflow-y-auto overscroll-y-contain rounded-t-4xl border-t border-brd-default bg-background-elevated px-6 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-[0_-16px_40px_rgba(0,0,0,0.45)]"
         >
+            <div
+                className="flex w-full cursor-grab touch-none items-center justify-center py-4 active:cursor-grabbing"
+                {...dragHandleProps}
+                onPointerDown={(event) => {
+                    dragHandleProps.onPointerDown(event);
+                    event.stopPropagation();
+                }}
+            >
+                <span aria-hidden className="h-1.5 w-12 rounded-full bg-brd-strong" />
+            </div>
+
+            <Button
+                size="icon"
+                variant="outline"
+                aria-label="Fechar"
+                data-amount-close
+                data-no-drag
+                onPointerDown={(event) => event.stopPropagation()}
+                onClick={onClose}
+                className="absolute top-3 right-4 hidden md:inline-flex"
+            >
+                <XIcon className="text-content-danger" />
+            </Button>
+
             <div className="grid grid-cols-3 place-items-center w-full max-w-[60%] mx-auto gap-8">
                 {DIGITS.map((digit) => (
                     <Key key={digit} onClick={() => onDigit(digit)}>
