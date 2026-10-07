@@ -31,29 +31,41 @@ export function TransactionsList({ month, year }: TransactionsListProps) {
         listRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
     }
 
-    console.log(data)
-
     return (
         <div ref={listRef} className="scroll-mt-6 space-y-6">
             <TransactionsFilters />
 
             {isLoading ? (
-                <div>Carregando...</div>
+                <p>Carregando...</p>
             ) : isError || !data?.transactions ? (
-                <div>Erro ao carregar transações</div>
-            ) : data.transactions.length === 0 && hasFilters ? (
-                <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-brd-default bg-background-surface px-6 py-12 text-center">
-                    <SearchX className="size-8 text-content-muted" />
-                    <div className="space-y-1">
-                        <p className="text-sm font-medium text-content-primary">Nenhuma transação encontrada</p>
-                        <p className="text-sm text-content-muted">
-                            Nada corresponde a esses filtros. Tente outro termo, categoria, status ou tipo.
-                        </p>
-                    </div>
-                    <Button type="button" variant="link" size="sm" onClick={clearFilters}>
-                        Limpar filtros
-                    </Button>
-                </div>
+                <p>Erro ao carregar transações</p>
+            ) : data.transactions.length === 0 ? (
+                <>
+                    {hasFilters ? (
+                        <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-brd-default bg-background-surface px-6 py-12 text-center">
+                            <SearchX className="size-8 text-content-muted" />
+                            <div className="space-y-1">
+                                <p className="text-sm font-medium text-content-primary">Nenhuma transação encontrada</p>
+                                <p className="text-sm text-content-muted">
+                                    Nada corresponde a esses filtros. Tente outro termo, categoria, status ou tipo.
+                                </p>
+                            </div>
+                            <Button type="button" variant="link" size="sm" onClick={clearFilters}>
+                                Limpar filtros
+                            </Button>
+                        </div>
+                    ) : (
+                        <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-brd-default bg-background-surface py-8 px-6 text-center">
+                            <div className="space-y-1">
+                                <p className="text-sm font-medium text-content-primary">Nenhuma transação encontrada</p>
+                                <p className="text-sm text-content-muted">
+                                    Adicione uma nova transação para começar a organizar suas finanças.
+                                </p>
+                            </div>
+                        </div>
+                    )}
+
+                </>
             ) : (
                 <>
                     {isMobile ? (
