@@ -1,6 +1,6 @@
 import { BalanceSkeleton } from "@/modules/statistics/components/balance-skeleton";
+import { statisticsQueryKeys } from "@/modules/statistics/query-keys";
 import { StatisticsService } from "@/modules/statistics/statistics.service";
-import { transactionRelatedQueryKeys } from "@/modules/transactions/query-keys";
 import { Button } from "@/shared/components/ui";
 import { cn } from "@/shared/utils/cn";
 import { formatations } from "@/shared/utils/formatations";
@@ -46,7 +46,7 @@ function FittedCurrency({
 
 export function Balance({ currentMonth, currentYear, visualEffects = true }: BalanceProps) {
     const { data: balance, isLoading, isError, refetch } = useQuery({
-        queryKey: transactionRelatedQueryKeys.cashFlowByPeriod(currentMonth, currentYear),
+        queryKey: statisticsQueryKeys.cashFlowByPeriod(currentMonth, currentYear),
         queryFn: () => StatisticsService.getCashFlow({
             month: currentMonth,
             year: currentYear,
@@ -100,7 +100,7 @@ export function Balance({ currentMonth, currentYear, visualEffects = true }: Bal
                         </p>
                         <FittedCurrency
                             value={balance.cashFlow.total_income ?? 0}
-                            maxSize="1rem"
+                            maxSize="2rem"
                             className="text-center font-medium"
                         />
                     </div>
@@ -114,7 +114,7 @@ export function Balance({ currentMonth, currentYear, visualEffects = true }: Bal
                         </p>
                         <FittedCurrency
                             value={balance.cashFlow.total_expense ?? 0}
-                            maxSize="1rem"
+                            maxSize="2rem"
                             className="text-center font-medium"
                         />
                     </div>
@@ -137,7 +137,7 @@ export function Balance({ currentMonth, currentYear, visualEffects = true }: Bal
                     </div>
                 </div>
 
-                <div className="flex min-w-0 flex-col gap-2 rounded-xl border border-brd-default bg-background-surface p-6">
+                <div className="flex min-w-0 flex-col gap-2 rounded-xl bg-background-surface p-6">
                     <p className="flex items-center gap-1 text-sm text-content-muted">
                         <ArrowDownLeft className="size-4 text-content-success" />
                         Entradas
@@ -149,7 +149,7 @@ export function Balance({ currentMonth, currentYear, visualEffects = true }: Bal
                     />
                 </div>
 
-                <div className="flex min-w-0 flex-col gap-2 rounded-xl border border-brd-default bg-background-surface p-6">
+                <div className="flex min-w-0 flex-col gap-2 rounded-xl bg-background-surface p-6">
                     <p className="flex items-center gap-1 text-sm text-content-muted">
                         <ArrowUpRight className="size-4 text-content-danger" />
                         Saídas

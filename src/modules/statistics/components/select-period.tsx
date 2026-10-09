@@ -1,6 +1,6 @@
 import { StatisticsService } from "@/modules/statistics/statistics.service";
 import type { AvaiblePeriodsOutput } from "@/modules/statistics/types/statistics";
-import { transactionRelatedQueryKeys } from "@/modules/transactions/query-keys";
+import { statisticsQueryKeys } from "@/modules/statistics/query-keys";
 import { Button, Select, Skeleton } from "@/shared/components/ui";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -13,7 +13,7 @@ interface SelectPeriodProps {
 
 export function SelectPeriod({ currentMonth, currentYear, navigateTo }: SelectPeriodProps) {
     const { data, isLoading, isError, refetch } = useQuery<AvaiblePeriodsOutput>({
-        queryKey: transactionRelatedQueryKeys.availablePeriods,
+        queryKey: statisticsQueryKeys.availablePeriods,
         queryFn: StatisticsService.getAvailablePeriods,
     });
 

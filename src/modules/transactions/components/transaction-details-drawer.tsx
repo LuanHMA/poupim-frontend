@@ -47,7 +47,7 @@ export function TransactionDetailsDrawer({ transaction, onClose }: TransactionDe
 
             <main
                 className={cn(
-                    "fixed z-1000 flex flex-col overflow-hidden bg-background-base transition-transform duration-300 ease-in-out",
+                    "fixed z-1000 flex flex-col overflow-hidden bg-background-base max-w-xl mx-auto transition-transform duration-300 ease-in-out",
                     "inset-0 h-dvh max-h-dvh w-full",
                     "sm:inset-y-0 sm:left-auto sm:right-0 sm:h-full sm:max-h-full sm:w-2/3",
                     "sm:border-l sm:border-brd-default sm:bg-background-surface",

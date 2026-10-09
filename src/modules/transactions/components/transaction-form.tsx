@@ -88,13 +88,13 @@ export function TransactionForm({
                         name="observation"
                     />
 
-                    <div className="flex items-center gap-2 justify-between border border-brd-subtle rounded-2xl p-4 bg-background-surface">
+                    {/* <div className="flex items-center gap-2 justify-between border border-brd-subtle rounded-2xl p-4 bg-background-surface">
                         <div className="flex flex-col items-start text-sm">
                             <h2 className="text-sm font-medium text-content-primary">Repetir</h2>
                             <p className="text-xs text-content-muted">Essa transação será registrada automaticamente todo mês.</p>
                         </div>
                         <Switch control={control} name="fixed" />
-                    </div>
+                    </div> */}
 
                     <div className="flex items-center gap-2 justify-between border border-brd-subtle rounded-2xl p-4 bg-background-surface">
                         <div className="flex flex-col items-start text-sm">

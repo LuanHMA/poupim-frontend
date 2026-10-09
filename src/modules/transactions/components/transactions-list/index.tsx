@@ -28,6 +28,8 @@ export function TransactionsList({ month, year }: TransactionsListProps) {
         pagination,
     } = useGetTransactions({ month, year })
 
+    console.log(data)
+
     const handlePageChange = (nextPage: number) => {
         pagination.goToPage(nextPage)
         listRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })

@@ -23,6 +23,7 @@
     "react-minimal-pie-chart": "^9.1.2",
     "react-router-dom": "^7.18.4",
     "react-toastify": "^11.1.0",
+    "recharts": "^3.10.1",
     "tailwind-merge": "^3.7.0",
     "use-debounce": "^10.1.1",
     "zod": "^4.6.5"

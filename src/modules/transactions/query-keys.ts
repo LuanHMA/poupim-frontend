@@ -1,3 +1,4 @@
+import { statisticsQueryKeys } from "@/modules/statistics/query-keys";
 import type { QueryClient } from "@tanstack/react-query";
 import type { TransactionFilters } from "./types/transactions";
 
@@ -6,14 +7,6 @@ export const transactionQueryKeys = {
         ["recent-transactions", month, year] as const,
     listByPeriod: (month: number, year: number, filters: TransactionFilters = {}) =>
         ["transactions", month, year, filters] as const,
-}
-
-export const transactionRelatedQueryKeys = {
-    cashFlowByPeriod: (month: number, year: number) =>
-        ["cash-flow", month, year] as const,
-    topCategoriesByPeriod: (month: number, year: number) =>
-        ["top-categories", month, year] as const,
-    availablePeriods: ["available-periods"] as const,
 }
 
 export function invalidateCreatedTransactionQueries(
@@ -30,13 +23,16 @@ export function invalidateCreatedTransactionQueries(
             queryKey: transactionQueryKeys.listByPeriod(month, year),
         }),
         queryClient.invalidateQueries({
-            queryKey: transactionRelatedQueryKeys.cashFlowByPeriod(month, year),
+            queryKey: statisticsQueryKeys.cashFlowByPeriod(month, year),
         }),
         queryClient.invalidateQueries({
-            queryKey: transactionRelatedQueryKeys.topCategoriesByPeriod(month, year),
+            queryKey: statisticsQueryKeys.topCategoriesByPeriod(month, year),
         }),
         queryClient.invalidateQueries({
-            queryKey: transactionRelatedQueryKeys.availablePeriods,
+            queryKey: statisticsQueryKeys.availablePeriods,
+        }),
+        queryClient.invalidateQueries({
+            queryKey: statisticsQueryKeys.cashPerDayRest(month, year),
         }),
     ])
 }

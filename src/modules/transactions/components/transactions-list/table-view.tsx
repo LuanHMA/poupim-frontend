@@ -6,17 +6,26 @@ import { useState } from "react"
 import type { Transaction } from "../../types/transactions"
 import { DeleteTransactionDialog } from "../delete-transaction-dialog"
 import { EditTransactionDrawer } from "../edit-transaction/edit-transaction-drawer"
+import { TransactionDetailsDrawer } from "../transaction-details-drawer"
 
 interface TransactionsTableViewProps {
     transactions: Transaction[]
 }
 
 export function TransactionsTableView({ transactions }: TransactionsTableViewProps) {
+    const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null)
     const [transactionToEdit, setTransactionToEdit] = useState<Transaction | null>(null)
     const [transactionToDelete, setTransactionToDelete] = useState<Transaction | null>(null)
 
     return (
         <>
+            {selectedTransaction && (
+                <TransactionDetailsDrawer
+                    transaction={selectedTransaction}
+                    onClose={() => setSelectedTransaction(null)}
+                />
+            )}
+
             {transactionToEdit && (
                 <EditTransactionDrawer
                     transaction={transactionToEdit}
@@ -45,7 +54,21 @@ export function TransactionsTableView({ transactions }: TransactionsTableViewPro
                     </thead>
                     <tbody>
                         {transactions.map((transaction) => (
-                            <tr key={transaction.id} className="border-b border-brd-subtle last:border-b-0">
+                            <tr
+                                key={transaction.id}
+                                role="button"
+                                tabIndex={0}
+                                aria-label={`Abrir detalhes de ${transaction.description}`}
+                                className="cursor-pointer border-b border-brd-subtle transition-colors hover:bg-background-elevated focus-visible:bg-background-elevated focus-visible:outline-none last:border-b-0"
+                                onClick={() => setSelectedTransaction(transaction)}
+                                onKeyDown={(event) => {
+                                    if (event.target !== event.currentTarget) return
+                                    if (event.key !== "Enter" && event.key !== " ") return
+
+                                    event.preventDefault()
+                                    setSelectedTransaction(transaction)
+                                }}
+                            >
                                 <td className="px-4 py-3 text-content-muted">{formatations.dateTime(transaction.transaction_date)}</td>
                                 <td className="px-4 py-3 font-medium text-content-primary">{transaction.description}</td>
                                 <td className="px-4 py-3 text-content-primary">{transaction.category.name}</td>
@@ -60,7 +83,10 @@ export function TransactionsTableView({ transactions }: TransactionsTableViewPro
                                             variant="outline"
                                             className="size-8"
                                             aria-label={`Editar ${transaction.description}`}
-                                            onClick={() => setTransactionToEdit(transaction)}
+                                            onClick={(event) => {
+                                                event.stopPropagation()
+                                                setTransactionToEdit(transaction)
+                                            }}
                                         >
                                             <Pencil className="size-3.5" />
                                         </Button>
@@ -69,7 +95,10 @@ export function TransactionsTableView({ transactions }: TransactionsTableViewPro
                                             variant="danger"
                                             className="size-8"
                                             aria-label={`Deletar ${transaction.description}`}
-                                            onClick={() => setTransactionToDelete(transaction)}
+                                            onClick={(event) => {
+                                                event.stopPropagation()
+                                                setTransactionToDelete(transaction)
+                                            }}
                                         >
                                             <Trash className="size-3.5" />
                                         </Button>

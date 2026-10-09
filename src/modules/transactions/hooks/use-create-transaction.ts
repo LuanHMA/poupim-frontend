@@ -35,6 +35,8 @@ export function useCreateTransaction({ transactionType, onCloseDrawer }: UseCrea
     })
 
     const handleCreateTransaction = handleSubmit(async (data) => {
+        console.log(data)
+
         try {
             const status = transactionType === "EXPENSE" ? (
                 data.status ? "PAID" : "PENDING"
